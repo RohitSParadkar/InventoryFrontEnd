@@ -3,11 +3,28 @@ import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet } from 'rea
 import { Button } from '@rneui/themed';
 import AppInput from '../customComponents/AppInput';
 import { useNavigation } from '@react-navigation/native';
-
+import { LoginApi } from '../../api/AuthApi';
+// email = bivega5693@othao.com password = Famin@12345
 const LoginPage = () => {
-  const [username, setUsername] = useState('');
+ 
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loginData,setLoginData] = useState([])
   const navigation = useNavigation()
+
+  const  handleLoginButton =async()=>{
+    // console.warn("befor api send")
+    await LoginApi(email,password).then((res) => {
+      setLoginData(res);
+    }).catch(err=>(console.log(err)))
+    if(loginData.success){
+      console.warn("login Successful")
+      const homeRedirect = ()=>navigation.navigate('InventoryHome')
+      homeRedirect();
+    }else{
+      console.warn("login Fail invalid email or password ")
+    }
+   }
   return (
     <ScrollView contentContainerStyle={styles.loginContainer} keyboardShouldPersistTaps="handled">
       <View style={styles.loginOuterContainer}>
@@ -17,8 +34,8 @@ const LoginPage = () => {
         </View>
         <View style={{ flex: 1.2 }}>
           <AppInput
-            onChangeText={setUsername}
-            value={username}
+            onChangeText={setEmail}
+            value={email}
             autoFocus={true}
             placeholder={'Email'}
           />
@@ -29,7 +46,7 @@ const LoginPage = () => {
             secureTextEntry
           />
           <View style={styles.centerContainer}>
-            <Button color="secondary" containerStyle={styles.loginButton}>
+            <Button color="secondary" containerStyle={styles.loginButton} onPress={handleLoginButton}>
               Login
             </Button>
             <View style={styles.centerTextContainer}>

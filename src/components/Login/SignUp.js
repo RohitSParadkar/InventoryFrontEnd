@@ -10,13 +10,22 @@ import {
 import {Button} from '@rneui/themed';
 import AppInput from '../customComponents/AppInput';
 import { useNavigation } from '@react-navigation/native';
+import { Formik } from 'formik';
+import { signupApi } from '../../api/AuthApi';
 
 const SignUp = () => {
     const navigation = useNavigation()
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [reEnterPassword, setReEnterPassword] = useState('');
+  const [data,setData] = useState([])
+
+ const  handleSignUpButton =async()=>{
+  // console.warn("befor api send")
+  await signupApi(email,reEnterPassword,name).then().catch(err=>(console.log(err)))
+  console.warn("after login api send")
+ }
   return (
     <ScrollView
       contentContainerStyle={styles.loginContainer}
@@ -34,8 +43,8 @@ const SignUp = () => {
             placeholder={'Name'}
           />
           <AppInput
-            onChangeText={setUsername}
-            value={username}
+            onChangeText={setEmail}
+            value={email}
             autoFocus={true}
             placeholder={'Email'}
           />
@@ -52,7 +61,7 @@ const SignUp = () => {
             secureTextEntry
           />
           <View style={styles.centerContainer}>
-            <Button color="secondary" containerStyle={styles.loginButton}>
+            <Button color="secondary" containerStyle={styles.loginButton} onPress={handleSignUpButton}>
               Sign up
             </Button>
             <View style={styles.centerTextContainer}>
