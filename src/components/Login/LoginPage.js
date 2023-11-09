@@ -20,7 +20,7 @@ const LoginPage = () => {
             onChangeText={setUsername}
             value={username}
             autoFocus={true}
-            placeholder={'Username'}
+            placeholder={'Email'}
           />
           <AppInput
             onChangeText={setPassword}

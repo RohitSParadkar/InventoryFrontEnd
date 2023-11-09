@@ -7,7 +7,7 @@ import ForgotPassword from '../Login/ForgotPassword';
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="SignUp" screenOptions={{headerShown:false}}>
+    <Stack.Navigator initialRouteName="Sign up" screenOptions={{headerShown:false}}>
     <Stack.Screen
       name="Login"
       component={LoginPage}
