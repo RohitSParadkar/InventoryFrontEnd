@@ -5,6 +5,7 @@ import LoginPage from '../Login/LoginPage';
 import SignUp from '../Login/SignUp';
 import Home from '../screens/Home';
 import ForgotPassword from '../Login/ForgotPassword';
+import OtpVerification from '../Login/OtpVerification';
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   return (
@@ -24,6 +25,10 @@ const AuthNavigator = () => {
      <Stack.Screen
       name="InventoryHome"
       component={Home}
+    />
+     <Stack.Screen
+      name="OtpVerification"
+      component={OtpVerification}
     />
   </Stack.Navigator>
   )

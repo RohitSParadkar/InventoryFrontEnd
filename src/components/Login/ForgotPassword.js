@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Button } from '@rneui/themed';
 import AppInput from '../customComponents/AppInput';
+import { useNavigation } from '@react-navigation/native';
 
 const ForgotPassword = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigation = useNavigation()
 
   return (
     <ScrollView contentContainerStyle={styles.loginContainer} keyboardShouldPersistTaps="handled">
@@ -25,6 +27,9 @@ const ForgotPassword = () => {
             <Button color="secondary" containerStyle={styles.loginButton}>
              Send Link
             </Button>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={{ marginLeft: 10, color: 'blue' }}>Back</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
