@@ -3,12 +3,23 @@ import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet } from 'rea
 import { Button } from '@rneui/themed';
 import AppInput from '../customComponents/AppInput';
 import { useNavigation } from '@react-navigation/native';
+import { forgotPassword } from '../../api/AuthApi';
 
 const ForgotPassword = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [forgotPasswordResponse,setForgotPasswordResponse] = useState('')
   const navigation = useNavigation()
+  const handleSendLinkButton = async () => {
+    try {
+      const response = await forgotPassword(email);
+      setForgotPasswordResponse(response);
+      console.warn(forgotPasswordResponse)
+    } catch (error) {
+      console.log(error);
+    }
 
+  };
   return (
     <ScrollView contentContainerStyle={styles.loginContainer} keyboardShouldPersistTaps="handled">
       <View style={styles.loginOuterContainer}>
@@ -18,13 +29,13 @@ const ForgotPassword = () => {
         </View>
         <View style={{ flex: 1.2 }}>
           <AppInput
-            onChangeText={setUsername}
-            value={username}
+            onChangeText={setEmail}
+            value={email}
             autoFocus={true}
             placeholder={'Email'}
           />
           <View style={styles.centerContainer}>
-            <Button color="secondary" containerStyle={styles.loginButton}>
+            <Button color="secondary" containerStyle={styles.loginButton} onPress={handleSendLinkButton}>
              Send Link
             </Button>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
