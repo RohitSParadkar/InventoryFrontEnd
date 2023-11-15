@@ -36,7 +36,7 @@ const ForgotPassword = () => {
           />
           <View style={styles.centerContainer}>
             <Button color="secondary" containerStyle={styles.loginButton} onPress={handleSendLinkButton}>
-             Send Link
+             Send OTP
             </Button>
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
               <Text style={{ marginLeft: 10, color: 'blue' }}>Back</Text>

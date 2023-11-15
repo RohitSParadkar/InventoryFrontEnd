@@ -58,9 +58,9 @@ const OtpVerification = ({ route }) => {
             <Button color="secondary" containerStyle={styles.loginButton} onPress={handleOtpVerification}>
               Verify
             </Button>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            {/* <TouchableOpacity onPress={() => navigation.navigate('Login')}>
               <Text style={{ marginLeft: 10, color: 'blue' }}>Back</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
       </View>

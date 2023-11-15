@@ -17,9 +17,11 @@ export default AppInput
 const {width, height} = Dimensions.get('window');
 const styles = StyleSheet.create({
     input: {
-        height: 40,
-        borderColor: '#000000',
-        borderBottomWidth: 1,
-        marginBottom: 36,
+      height: 40,
+      width:313,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+      borderRadius:5.22
       },
 })
