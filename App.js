@@ -26,13 +26,15 @@ import Home from './src/components/screens/Home';
 import Flash from './src/components/Login/Flash';
 import SignIn from './src/components/Login/SignIn';
 import SignUPI from './src/components/Login/SignUPI';
-import CustomeDataTable from './src/components/customComponents/CustomeDataTable';
+import MyComponent from './src/components/customComponents/MyComponent';
+
 function App() {
   return (
 //     <NavigationContainer>
 //    <AuthNavigator/>
 // </NavigationContainer>
- <CustomeDataTable/>
+<MyComponent/>
+
   );
 }
 
