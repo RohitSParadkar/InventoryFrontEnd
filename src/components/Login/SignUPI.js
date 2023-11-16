@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,18 +8,23 @@ import {
   TouchableOpacity,
   ScrollView, // Import ScrollView
 } from 'react-native';
-import { Button } from '@rneui/themed';
+import {Button} from '@rneui/themed';
 import AppInput from '../customComponents/AppInput';
-import UnderlineSVG from '../../assets/svg/UnderlineSVG';
+import UnderlineSVG, {LoginEyeIcon} from '../../assets/svg/UnderlineSVG';
 
-const SignIn = () => {
+const SignUPI = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isEnabled, setIsEnabled] = useState(false);
+  const [reEnterPassword, setReEnterPassword] = useState('');
   const [passwordVisible,setPasswordVisible] =useState(true)
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const [confrpasswordVisible,setConfrPasswordVisible] =useState(true)
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+  
   const handlePasswordShow = ()=>{
     setPasswordVisible(!passwordVisible)
+  }
+  const handleConfrPasswordShow =()=>{
+    setConfrPasswordVisible(!confrpasswordVisible)
   }
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -32,13 +37,13 @@ const SignIn = () => {
           />
         </View>
         <View style={styles.bottomContainer}>
-          <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+          <View style={{flexDirection: 'row', marginBottom: 20}}>
             <View>
-              <Text style={[{ marginRight: 40 }, styles.boldText]}>Sign In </Text>
-              <UnderlineSVG />
+              <Text style={[{marginRight: 40}]}>Sign In </Text>
             </View>
             <View>
-              <Text>Sign Up</Text>
+              <Text style={styles.boldText}>Sign Up</Text>
+              <UnderlineSVG />
             </View>
           </View>
           <View style={styles.textInput}>
@@ -58,34 +63,29 @@ const SignIn = () => {
               placeholder={'Enter Password'}
               secureTextEntry={passwordVisible}
             />
-              <TouchableOpacity style={{position:'absolute',top:20,right:50}} onPress={handlePasswordShow}>
+            <TouchableOpacity style={{position:'absolute',top:20,right:50}} onPress={handlePasswordShow} >
               <Image
                 style={{width: 20, height: 20,}}
                 source={require('../../assets/logo/Iconseye.png')}
               />
               </TouchableOpacity>
             </View>
-          </View>
-          <View style={styles.toggleContainer}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Switch
-                trackColor={{ false: '#1A1A27', true: '#81b0ff' }}
-                thumbColor={isEnabled ? '#f4f3f4' : '#f4f3f4'}
-                ios_backgroundColor="#1A1A27"
-                onValueChange={toggleSwitch}
-                value={isEnabled}
+            <Text>Confrim Password</Text>
+            <View >
+              <AppInput
+                onChangeText={setReEnterPassword}
+                value={reEnterPassword}
+                autoFocus={true}
+                placeholder={'Confrim Password'}
+                secureTextEntry={confrpasswordVisible}
               />
-              <Text style={styles.boldText}>Remember me</Text>
+              <TouchableOpacity style={{position:'absolute',top:20,right:50}} onPress={handleConfrPasswordShow}>
+              <Image
+                style={{width: 20, height: 20,}}
+                source={require('../../assets/logo/Iconseye.png')}
+              />
+              </TouchableOpacity>
             </View>
-
-            <TouchableOpacity>
-              <Text style={styles.boldText}>Forgot password?</Text>
-            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -95,7 +95,7 @@ const SignIn = () => {
               paddingBottom: 20, // Adjusted padding to avoid button being covered by keyboard
             }}>
             <Button color="#1A1A27" containerStyle={styles.loginButton}>
-              Sign In
+              Sign Up
             </Button>
           </View>
         </View>
@@ -104,7 +104,7 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUPI;
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
@@ -151,4 +151,3 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
 });
-

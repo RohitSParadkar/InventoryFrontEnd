@@ -25,6 +25,7 @@ import AuthNavigator from './src/components/navigation/AuthNavigator';
 import Home from './src/components/screens/Home';
 import Flash from './src/components/Login/Flash';
 import SignIn from './src/components/Login/SignIn';
+import SignUPI from './src/components/Login/SignUPI';
 function App() {
   return (
 //     <NavigationContainer>
@@ -32,7 +33,8 @@ function App() {
 // </NavigationContainer>
   // <Home/>
   // <Flash/>
-  <SignIn/>
+  // <SignIn/>
+  <SignUPI/>
   );
 }
 
