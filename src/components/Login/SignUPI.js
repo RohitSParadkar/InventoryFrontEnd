@@ -11,21 +11,23 @@ import {
 import {Button} from '@rneui/themed';
 import AppInput from '../customComponents/AppInput';
 import UnderlineSVG, {LoginEyeIcon} from '../../assets/svg/UnderlineSVG';
+import { useNavigation } from '@react-navigation/native';
 
 const SignUPI = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [reEnterPassword, setReEnterPassword] = useState('');
-  const [passwordVisible,setPasswordVisible] =useState(true)
-  const [confrpasswordVisible,setConfrPasswordVisible] =useState(true)
+  const [passwordVisible, setPasswordVisible] = useState(true);
+  const [confrpasswordVisible, setConfrPasswordVisible] = useState(true);
+  const navigation = useNavigation()
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-  
-  const handlePasswordShow = ()=>{
-    setPasswordVisible(!passwordVisible)
-  }
-  const handleConfrPasswordShow =()=>{
-    setConfrPasswordVisible(!confrpasswordVisible)
-  }
+
+  const handlePasswordShow = () => {
+    setPasswordVisible(!passwordVisible);
+  };
+  const handleConfrPasswordShow = () => {
+    setConfrPasswordVisible(!confrpasswordVisible);
+  };
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       {/* Wrap your existing code inside ScrollView */}
@@ -39,11 +41,15 @@ const SignUPI = () => {
         <View style={styles.bottomContainer}>
           <View style={{flexDirection: 'row', marginBottom: 20}}>
             <View>
-              <Text style={[{marginRight: 40}]}>Sign In </Text>
+              <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+                <Text style={[{marginRight: 40}]}>Sign In </Text>
+              </TouchableOpacity>
             </View>
             <View>
+            <TouchableOpacity>
               <Text style={styles.boldText}>Sign Up</Text>
               <UnderlineSVG />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.textInput}>
@@ -56,22 +62,24 @@ const SignUPI = () => {
             />
             <Text>Password</Text>
             <View>
-            <AppInput
-              onChangeText={setPassword}
-              value={password}
-              autoFocus={true}
-              placeholder={'Enter Password'}
-              secureTextEntry={passwordVisible}
-            />
-            <TouchableOpacity style={{position:'absolute',top:20,right:50}} onPress={handlePasswordShow} >
-              <Image
-                style={{width: 20, height: 20,}}
-                source={require('../../assets/logo/Iconseye.png')}
+              <AppInput
+                onChangeText={setPassword}
+                value={password}
+                autoFocus={true}
+                placeholder={'Enter Password'}
+                secureTextEntry={passwordVisible}
               />
+              <TouchableOpacity
+                style={{position: 'absolute', top: 20, right: 50}}
+                onPress={handlePasswordShow}>
+                <Image
+                  style={{width: 20, height: 20}}
+                  source={require('../../assets/logo/Iconseye.png')}
+                />
               </TouchableOpacity>
             </View>
             <Text>Confrim Password</Text>
-            <View >
+            <View>
               <AppInput
                 onChangeText={setReEnterPassword}
                 value={reEnterPassword}
@@ -79,11 +87,13 @@ const SignUPI = () => {
                 placeholder={'Confrim Password'}
                 secureTextEntry={confrpasswordVisible}
               />
-              <TouchableOpacity style={{position:'absolute',top:20,right:50}} onPress={handleConfrPasswordShow}>
-              <Image
-                style={{width: 20, height: 20,}}
-                source={require('../../assets/logo/Iconseye.png')}
-              />
+              <TouchableOpacity
+                style={{position: 'absolute', top: 20, right: 50}}
+                onPress={handleConfrPasswordShow}>
+                <Image
+                  style={{width: 20, height: 20}}
+                  source={require('../../assets/logo/Iconseye.png')}
+                />
               </TouchableOpacity>
             </View>
           </View>

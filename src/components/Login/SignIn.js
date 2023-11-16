@@ -11,12 +11,14 @@ import {
 import { Button } from '@rneui/themed';
 import AppInput from '../customComponents/AppInput';
 import UnderlineSVG from '../../assets/svg/UnderlineSVG';
+import { useNavigation } from '@react-navigation/native';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
   const [passwordVisible,setPasswordVisible] =useState(true)
+  const navigation = useNavigation()
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const handlePasswordShow = ()=>{
     setPasswordVisible(!passwordVisible)
@@ -34,11 +36,15 @@ const SignIn = () => {
         <View style={styles.bottomContainer}>
           <View style={{ flexDirection: 'row', marginBottom: 20 }}>
             <View>
+              <TouchableOpacity>
               <Text style={[{ marginRight: 40 }, styles.boldText]}>Sign In </Text>
               <UnderlineSVG />
+              </TouchableOpacity>
             </View>
             <View>
+              <TouchableOpacity onPress={() => navigation.navigate('Sign up')}>
               <Text>Sign Up</Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.textInput}>
@@ -94,7 +100,7 @@ const SignIn = () => {
               alignItems: 'center',
               paddingBottom: 20, // Adjusted padding to avoid button being covered by keyboard
             }}>
-            <Button color="#1A1A27" containerStyle={styles.loginButton}>
+            <Button color="#1A1A27" containerStyle={styles.loginButton} onPress={() => navigation.navigate('InventoryHome')}>
               Sign In
             </Button>
           </View>

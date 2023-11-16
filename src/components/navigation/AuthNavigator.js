@@ -4,19 +4,24 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginPage from '../Login/LoginPage';
 import SignUp from '../Login/SignUp';
 import Home from '../screens/Home';
+import Flash from '../Login/Flash';
+import SignIn from '../Login/SignIn';
+import SignUPI from '../Login/SignUPI';
 import ForgotPassword from '../Login/ForgotPassword';
 import OtpVerification from '../Login/OtpVerification';
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Sign up" screenOptions={{headerShown:false}}>
+    <Stack.Navigator initialRouteName="InventoryHome" >
     <Stack.Screen
-      name="Login"
-      component={LoginPage}
+      name="SignIn"
+      component={SignIn}
+      options={{headerShown:false}}
     />
     <Stack.Screen
       name="Sign up"
-      component={SignUp}
+      component={SignUPI}
+      options={{headerShown:false}}
     />
     <Stack.Screen
       name="Forgot Password"

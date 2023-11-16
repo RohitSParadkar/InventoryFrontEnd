@@ -25,7 +25,9 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: 'center',
     rowGap:10,
-    borderRadius:15
+    borderRadius:6,
+    borderColor:'#E8E8E8',
+    borderWidth:1
 
   },
   infoLogo: {

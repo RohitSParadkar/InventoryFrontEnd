@@ -7,59 +7,94 @@ import {
     ContributionGraph,
     StackedBarChart
   } from "react-native-chart-kit";
-import React from 'react'
 
+const screenWidth = Dimensions.get("window").width;
+const chartConfig = {
+  backgroundGradientFrom: "#ffffff",
+  backgroundColor: "#fffff",
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: "#ffffff",
+  backgroundGradientToOpacity: 0.5,
+  color: (opacity = 1) => `black`,
+  strokeWidth: 2, // optional, default 3
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false // optional
+};
+const data = {
+  labels: ["January", "February", "March", "April", "May", "June"],
+  datasets: [
+    {
+      data: [20, 45, 28, 80, 99, 43],
+      color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`, // optional
+      strokeWidth: 2 // optional
+    }
+  ],
+  legend: ["Rainy Days"] // optional
+};
 const Charts = () => {
   return (
     <View>
-    <Text>Sales Chart</Text>
-    <LineChart
-      data={{
-        labels: ["January", "February", "March", "April", "May", "June"],
-        datasets: [
-          {
-            data: [
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100,
-              Math.random() * 100
-            ]
+      <Text>Sales Chart</Text>
+      <LineChart
+        data={{
+          labels: ["January", "February", "March", "April", "May", "June"],
+          datasets: [
+            {
+              data: [
+                Math.random() * 100,
+                Math.random() * 100,
+                Math.random() * 100,
+                Math.random() * 100,
+                Math.random() * 100,
+                Math.random() * 100
+              ]
+            }
+          ]
+        }}
+        width={Dimensions.get("window").width - 20}
+        height={220}
+        yAxisLabel="$"
+        yAxisSuffix="k"
+        withVerticalLines = {false}
+        withHorizontalLines ={false}
+        yAxisInterval={1}
+        chartConfig={{
+          backgroundColor: "#ffffff",
+          backgroundGradientFrom: "#ffffff",
+          backgroundGradientTo: "#ffffff",
+          decimalPlaces: 2,
+          color: (opacity = 1) => `rgba(134, 65, 244, ${opacity})`,
+          labelColor: (opacity = 1) => `black`,
+          style: {
+            borderRadius: 16,
+            gridBackground: 'transparent', // Set gridBackground to transparent
+          },
+          propsForDots: {
+            r: "6",
+            strokeWidth: "2",
           }
-        ]
-      }}
-      width={Dimensions.get("window").width-20} // from react-native
-      height={220}
-      yAxisLabel="$"
-      yAxisSuffix="k"
-      yAxisInterval={1} // optional, defaults to 1
-      chartConfig={{
-        backgroundColor: "#fffff",
-        backgroundGradientFrom: "#fb8c00",
-        backgroundGradientTo: "#ffa726",
-        decimalPlaces: 2, // optional, defaults to 2dp
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        style: {
+        }}
+        bezier
+        style={{
+          marginVertical: 8,
           borderRadius: 16
-        },
-        propsForDots: {
-          r: "6",
-          strokeWidth: "2",
-          stroke: "#ffa726"
-        }
-      }}
-      bezier
-      style={{
-        marginVertical: 8,
-        borderRadius: 16
-      }}
-    />
-  </View>
+        }}
+      />
+    </View>
   )
 }
 
+export const CustomLineChart = ()=>{
+  
+  return(
+    <LineChart
+  data={data}
+  width={screenWidth}
+  height={220}
+  chartConfig={chartConfig}
+/>
+  )
+}
 export default Charts
 
 const styles = StyleSheet.create({})
