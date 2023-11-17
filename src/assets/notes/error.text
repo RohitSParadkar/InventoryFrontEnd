@@ -1,1 +1,4 @@
 error while using react-native-chart-kit: install react native svg
+
+react native paper icons are not appearing :
+add the below url  :            apply from: file("../../node_modules/react-native-vector-icons/fonts.gradle")   to (android/app/build.gradle) 

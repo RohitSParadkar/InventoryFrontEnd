@@ -27,13 +27,15 @@ import Flash from './src/components/Login/Flash';
 import SignIn from './src/components/Login/SignIn';
 import SignUPI from './src/components/Login/SignUPI';
 import MyComponent from './src/components/customComponents/MyComponent';
+import CustomModal from './src/components/customComponents/CustomModal';
 
 function App() {
   return (
-//     <NavigationContainer>
-//    <AuthNavigator/>
-// </NavigationContainer>
-<MyComponent/>
+    <NavigationContainer>
+   <AuthNavigator/>
+</NavigationContainer>
+//<MyComponent/>
+
 
   );
 }

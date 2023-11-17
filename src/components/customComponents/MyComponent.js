@@ -1,7 +1,5 @@
 import * as React from 'react';
-import { View,Text } from 'react-native';
 import { DataTable } from 'react-native-paper';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const MyComponent = () => {
   const [page, setPage] = React.useState(0);
@@ -46,6 +44,7 @@ const MyComponent = () => {
 
   return (
     <DataTable>
+      <MyComponent/>
       <DataTable.Header>
         <DataTable.Title>Dessert</DataTable.Title>
         <DataTable.Title numeric>Calories</DataTable.Title>
@@ -70,8 +69,6 @@ const MyComponent = () => {
         onItemsPerPageChange={onItemsPerPageChange}
         showFastPaginationControls
         selectPageDropdownLabel={'Rows per page'}
-        leftArrowIcon={() => <Icon name="chevron-left" size={25} />}
-        rightArrowIcon={() => <Icon name="chevron-right" size={25} />}
       />
     </DataTable>
   );

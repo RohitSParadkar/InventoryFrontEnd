@@ -11,6 +11,7 @@ import InfoCard from '../customComponents/InfoCard';
 import Charts, { CustomLineChart } from '../customComponents/Charts';
 import CustomTable from '../customComponents/CustomTable';
 import { BarChart, LineChart, PieChart } from "react-native-gifted-charts";
+
 const lineData = [
   {value: 0, dataPointText: '0'},
   {value: 20, dataPointText: '20'},
@@ -57,6 +58,21 @@ const barData = [
     sideColor: '#85E0E0',
     topColor: '#B0EAEB',
   }]
+  const tableHead = ['Name', 'Sold Quantity', 'Remaining Quantity', 'Price'];
+const tableTitle = ['Maggie', 'Egg', 'Sugar', 'Coffee'];
+const tableData = [
+  ['1', '2', '200'],
+  ['10', '12', '150'],
+  ['11', '20', '100'],
+  ['14', '13', '500'],
+  ['14', '13', '500'],
+  ['14', '13', '500'],
+  ['14', '13', '500'],
+  ['14', '13', '500'],
+  ['14', '13', '500'],
+  ['14', '13', '500'],
+
+];
 export default class Home extends Component {
   render() {
     return (
@@ -112,7 +128,7 @@ export default class Home extends Component {
         </View>
             </View>
             <ScrollView style={styles.middle}>
-              <CustomTable title={'Top Selling Stock'} />
+            <CustomTable tableData={tableData} tableHead={tableHead} tableTitle={tableTitle}/>
             </ScrollView>
           </View>
         </ScrollView>

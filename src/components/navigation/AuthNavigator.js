@@ -6,13 +6,16 @@ import SignUp from '../Login/SignUp';
 import Home from '../screens/Home';
 import Flash from '../Login/Flash';
 import SignIn from '../Login/SignIn';
+import Inventory from '../screens/Inventory/Inventory';
+import Buy from '../screens/Transcation/Buy';
+import Sell from '../screens/Transcation/Sell';
 import SignUPI from '../Login/SignUPI';
 import ForgotPassword from '../Login/ForgotPassword';
 import OtpVerification from '../Login/OtpVerification';
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="InventoryHome" >
+    <Stack.Navigator initialRouteName="Buy" >
     <Stack.Screen
       name="SignIn"
       component={SignIn}
@@ -30,6 +33,21 @@ const AuthNavigator = () => {
      <Stack.Screen
       name="InventoryHome"
       component={Home}
+    />
+    <Stack.Screen
+      name="Inventory"
+      component={Inventory}
+      options={{headerShown:false}}
+    />
+    <Stack.Screen
+      name="Buy"
+      component={Buy}
+      options={{headerShown:true}}
+    />
+     <Stack.Screen
+      name="Sell"
+      component={Sell}
+      options={{headerShown:true}}
     />
      <Stack.Screen
       name="OtpVerification"
