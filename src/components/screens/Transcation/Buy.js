@@ -48,8 +48,8 @@ import {
                 </View>
               </View>
         <View style={styles.tableContainer}>
-          {/* <MyComponent/> */}
-        <CustomTable tableData={tableData} tableHead={tableHead} />
+          <MyComponent/>
+        {/* <CustomTable tableData={tableData} tableHead={tableHead} /> */}
         </View>
         <View style={styles.bottomContainer}>
         <TouchableOpacity onPress={toggleModal}>
