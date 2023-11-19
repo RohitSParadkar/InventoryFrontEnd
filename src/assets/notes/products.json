@@ -1,0 +1,75 @@
+[{
+  "_id": {
+    "$oid": "6558da0f0f98f8e0779d7a50"
+  },
+  "productID": 1236,
+  "productName": "moongDal",
+  "category": "grocery",
+  "quantity": 4,
+  "amount": 60,
+  "expiry": "01/12/2023",
+  "date": {
+    "$date": "2023-11-18T15:36:47.898Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6558e5bc9a411c1460e060b0"
+  },
+  "productID": 1,
+  "productName": "milk",
+  "category": "grocery",
+  "quantity": 12,
+  "amount": 35,
+  "expiry": "01/12/2023",
+  "date": {
+    "$date": "2023-11-18T16:26:36.748Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "655911e5e119b5079a7a9e2d"
+  },
+  "productID": 67,
+  "productName": "butter",
+  "category": "grocery",
+  "quantity": 35,
+  "amount": 130,
+  "expiry": "12/12/2023",
+  "date": {
+    "$date": "2023-11-18T19:35:01.576Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65599534d14ccb2eca5713fe"
+  },
+  "productID": 2,
+  "productName": "cupcke",
+  "category": "grocery",
+  "quantity": 12,
+  "amount": 130,
+  "expiry": "12/13/2023",
+  "date": {
+    "$date": "2023-11-19T04:55:16.428Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65599f6aa0f79856b89a168b"
+  },
+  "productID": 34,
+  "productName": "maggie",
+  "category": "grocery",
+  "quantity": 16,
+  "amount": 130,
+  "expiry": "12/12/2023",
+  "date": {
+    "$date": "2023-11-19T05:38:50.853Z"
+  },
+  "__v": 0
+}]

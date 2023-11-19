@@ -37,7 +37,7 @@ const AuthNavigator = () => {
     <Stack.Screen
       name="Inventory"
       component={Inventory}
-      options={{headerShown:false}}
+      options={{headerShown:true}}
     />
     <Stack.Screen
       name="Buy"

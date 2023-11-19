@@ -1,39 +1,30 @@
-import React, { useState } from 'react';
-import {Text, View, StyleSheet, Dimensions, ScrollView} from 'react-native';
-import { SearchBar } from 'react-native-elements';
-
+import * as React from 'react';
+import { Searchbar } from 'react-native-paper';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 const CustomSearchBar = () => {
-  const [search, setSearch] = useState('');
+  const [searchQuery, setSearchQuery] = React.useState('');
 
-  const updateSearch = (searchText) => {
-    setSearch(searchText);
-  };
+  const onChangeSearch = query => setSearchQuery(query);
 
   return (
-    <SearchBar
-      placeholder="Type Here..."
-      onChangeText={updateSearch}
-      containerStyle ={styles.searchContainer}
-      inputContainerStyle ={styles.inputSearchContainer}
-      value={search}
+    <Searchbar
+      placeholder="Search"
+      onChangeText={onChangeSearch}
+      value={searchQuery}
+      style={{backgroundColor:'#F3F9FB',borderWidth:1,height:50 }}
     />
   );
 };
 
 export default CustomSearchBar;
 const styles = StyleSheet.create({
-    searchContainer:{
-        backgroundColor:"blue",
-        borderColor:'#F0F1F3',
-        height:40,
-        marginBottom:100
-    },
-    inputSearchContainer:{
-        backgroundColor:"white",
-        height:20,
-        borderColor:"#F0F1F3",
-        borderWidth:2
-    }
-  });
-
-
+ 
+});
