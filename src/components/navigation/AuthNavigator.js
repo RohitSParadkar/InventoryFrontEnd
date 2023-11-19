@@ -16,44 +16,53 @@ const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Inventory" >
-    <Stack.Screen
-      name="SignIn"
-      component={SignIn}
-      options={{headerShown:false}}
-    />
-    <Stack.Screen
-      name="Sign up"
-      component={SignUPI}
-      options={{headerShown:false}}
-    />
-    <Stack.Screen
-      name="Forgot Password"
-      component={ForgotPassword}
-    />
-     <Stack.Screen
-      name="InventoryHome"
-      component={Home}
-    />
-    <Stack.Screen
-      name="Inventory"
-      component={Inventory}
-      options={{headerShown:true}}
-    />
-    <Stack.Screen
-      name="Buy"
-      component={Buy}
-      options={{headerShown:true}}
-    />
-     <Stack.Screen
-      name="Sell"
-      component={Sell}
-      options={{headerShown:true}}
-    />
-     <Stack.Screen
-      name="OtpVerification"
-      component={OtpVerification}
-    />
-  </Stack.Navigator>
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Sign up"
+        component={SignUPI}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Forgot Password"
+        component={ForgotPassword}
+      />
+      <Stack.Screen
+        name="InventoryHome"
+        component={Home}
+      />
+      <Stack.Screen
+        name="Inventory"
+        component={Inventory}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1A1A27', // Set your desired background color
+          },
+          headerTintColor: '#FFFFFF', // Set your desired text color
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Buy"
+        component={Buy}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="Sell"
+        component={Sell}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="OtpVerification"
+        component={OtpVerification}
+      />
+    </Stack.Navigator>
   )
 }
 

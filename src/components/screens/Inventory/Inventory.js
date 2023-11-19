@@ -14,6 +14,7 @@ import { ModalAppInput } from '../../customComponents/AppInput';
 import { Button } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import { creatProductsApi, inventoryListsApi, searchByName } from '../../../api/AuthApi';
+import UnderlineSVG from '../../../assets/svg/UnderlineSVG';
 
 const Inventory = () => {
   const navigation = useNavigation();
@@ -45,7 +46,6 @@ const Inventory = () => {
     setSearchQuery(query);
     try {
       if (query.trim() === '') {
-        // If the search query is empty, fetch the entire inventory list
         fetchData();
       } else {
         // If there's a search query, perform the search
@@ -129,18 +129,24 @@ const Inventory = () => {
   return (
     <ScrollView style={styles.scrollContainer}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 20 }}>
-        <View>
+        <TouchableOpacity>
           <Text style={styles.boldText}>Overview</Text>
-        </View>
-        <View>
-          <Text style={styles.boldText}>Inventory</Text>
-        </View>
-        <View>
-          <Text style={styles.boldText}>Transaction</Text>
-        </View>
-        <View>
-          <Text style={styles.boldText}>Statement</Text>
-        </View>
+        </TouchableOpacity>
+      
+          <TouchableOpacity>
+            <Text style={[styles.boldText]}>Inventory</Text>
+            <UnderlineSVG />
+          </TouchableOpacity>
+
+        <TouchableOpacity>
+        <Text style={styles.boldText}>Transaction</Text>
+        </TouchableOpacity>
+          
+   
+        <TouchableOpacity>
+        <Text style={styles.boldText}>Statement</Text>
+        </TouchableOpacity>
+         
       </View>
       {/* searchbar container */}
       <View style={{ marginBottom: 10 }}>
@@ -156,10 +162,10 @@ const Inventory = () => {
         <DataTable style={{ backgroundColor: '#F2F2F4', borderRadius: 10, borderWidth: 1 }}>
           <DataTable.Header style={{ backgroundColor: '#E7EFF3', borderRadius: 10 }}>
             <TouchableOpacity onPress={handleSort}>
-              <DataTable.Title sortDirection={sort}>Product</DataTable.Title>
+              <DataTable.Title sortDirection={sort} style={styles.tableHeader}>Product</DataTable.Title>
             </TouchableOpacity>
-            <DataTable.Title numeric>Quantity</DataTable.Title>
-            <DataTable.Title numeric>Price</DataTable.Title>
+            <DataTable.Title numeric style={styles.tableHeader}>Quantity</DataTable.Title>
+            <DataTable.Title numeric style={styles.tableHeader}>Price</DataTable.Title>
           </DataTable.Header>
 
           {paginatedItems.map((item) => (
@@ -349,4 +355,19 @@ const styles = StyleSheet.create({
     columnGap: width * 0.02,
     paddingRight: width * 0.04,
   },
+  boldText: {
+    color: '#1A1A27',
+    fontFamily: 'DM Sans',
+    fontSize: 15,
+    fontStyle: 'normal',
+    fontWeight: '500',
+    letterSpacing: 0.2,
+  },
+  tableHeader:{
+    color:'#495D69',
+    fontFamily:'Lato',
+    fontWeight:'700',
+    fontSize:14
+
+  }
 });
