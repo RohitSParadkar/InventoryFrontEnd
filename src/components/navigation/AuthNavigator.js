@@ -15,7 +15,7 @@ import OtpVerification from '../Login/OtpVerification';
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Buy" >
+    <Stack.Navigator initialRouteName="Sell" >
       <Stack.Screen
         name="SignIn"
         component={SignIn}

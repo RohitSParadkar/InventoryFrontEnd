@@ -117,7 +117,25 @@ export const inventoryListsApi = async () => {
         return err
     }
 }
-
+export const transactionsListsApi = async () => {
+    const options = {
+        method: 'POST',
+        url: 'http://10.0.2.2:8000/api/user//transactionsList',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            "Access-Control-Allow-Origin": "*",
+        },
+        data: {}
+    }
+    try {
+        // console.warn(options.data)
+        const response = await axios.request(options)
+        // console.warn(response)
+        return response.data;
+    } catch (err) {
+        return err
+    }
+}
 export const searchByName = async (productName) => {
     const options = {
         method: 'POST',
@@ -150,6 +168,41 @@ export const inventoryByProductid = async (productID) => {
     }
     try {
         // console.warn(options.data)
+        const response = await axios.request(options)
+        // console.warn(response)
+        return response.data;
+    } catch (err) {
+        return err
+    }
+}
+
+
+export const transactionAPI= async (
+    buyerID,
+    productID,
+    category,
+    quantity,
+    amount,
+    type
+    ) => {
+    const options = {
+        method: 'POST',
+        url: 'http://10.0.2.2:8000/api/user/createTransactions',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            "Access-Control-Allow-Origin": "*",
+        },
+        data: {
+            buyerId:buyerID,
+            productId:productID,
+            category:category,
+            quantity:quantity,
+            amount:amount,
+            type:type
+        }
+    }
+    try {
+        console.warn(options.data)
         const response = await axios.request(options)
         // console.warn(response)
         return response.data;
