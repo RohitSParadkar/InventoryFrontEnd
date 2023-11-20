@@ -137,3 +137,23 @@ export const searchByName = async (productName) => {
         return err
     }
 }
+
+export const inventoryByProductid = async (productID) => {
+    const options = {
+        method: 'POST',
+        url: 'http://10.0.2.2:8000/api/user/inventoryByProductid',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            "Access-Control-Allow-Origin": "*",
+        },
+        data: {productID:productID}
+    }
+    try {
+        // console.warn(options.data)
+        const response = await axios.request(options)
+        // console.warn(response)
+        return response.data;
+    } catch (err) {
+        return err
+    }
+}

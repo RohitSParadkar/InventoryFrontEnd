@@ -4,10 +4,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginPage from '../Login/LoginPage';
 import SignUp from '../Login/SignUp';
 import Home from '../screens/Home';
+import Buy from '../screens/Transcation/Buy';
 import Flash from '../Login/Flash';
 import SignIn from '../Login/SignIn';
 import Inventory from '../screens/Inventory/Inventory';
-import Buy from '../screens/Transcation/Buy';
 import Sell from '../screens/Transcation/Sell';
 import SignUPI from '../Login/SignUPI';
 import ForgotPassword from '../Login/ForgotPassword';
@@ -15,7 +15,7 @@ import OtpVerification from '../Login/OtpVerification';
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Inventory" >
+    <Stack.Navigator initialRouteName="Buy" >
       <Stack.Screen
         name="SignIn"
         component={SignIn}
@@ -51,7 +51,16 @@ const AuthNavigator = () => {
       <Stack.Screen
         name="Buy"
         component={Buy}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1A1A27', // Set your desired background color
+          },
+          headerTintColor: '#FFFFFF', // Set your desired text color
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
       />
       <Stack.Screen
         name="Sell"
