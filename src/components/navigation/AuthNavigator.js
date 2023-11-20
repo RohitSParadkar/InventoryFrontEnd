@@ -62,10 +62,19 @@ const AuthNavigator = () => {
           },
         }}
       />
-      <Stack.Screen
+       <Stack.Screen
         name="Sell"
         component={Sell}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1A1A27', // Set your desired background color
+          },
+          headerTintColor: '#FFFFFF', // Set your desired text color
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
       />
       <Stack.Screen
         name="OtpVerification"

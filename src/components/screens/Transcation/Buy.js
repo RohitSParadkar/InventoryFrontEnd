@@ -61,7 +61,7 @@ const Inventory = () => {
     if (value || isFocus) {
       return (
         <Text style={[styles.label, isFocus && {color: 'blue'}]}>
-          Product ID
+          Product Name
         </Text>
       );
     }
@@ -128,7 +128,7 @@ const Inventory = () => {
 
   const paginatedItems = sortedItems.slice(from, to);
 
-  const handleButton2 = async () => {
+  const handleBuy = async () => {
     await creatProductsApi(
       productID,
       productName,
@@ -140,6 +140,8 @@ const Inventory = () => {
       .then(res => {
         setInventoryListData(res);
         setModalVisible(!isModalVisible);
+        setAvailableQnt(null)
+        setValue(null)
         setProductName('');
         setProductID('');
         setCategory('');
@@ -169,12 +171,10 @@ const Inventory = () => {
       console.error('Error fetching inventory list:', error);
     }
   };
-  useEffect(() => {
-    console.warn(availableQnt?.quantity);
-  }, [availableQnt]);
-  console.log(availableQnt)
   const handleAdd = async () => {
     setModalVisible(!isModalVisible);
+    setAvailableQnt(null)
+    setValue(null)
     setProductName('');
     setProductID('');
     setCategory('');
@@ -292,7 +292,7 @@ const Inventory = () => {
                     />
                   </View>
                   <View style={styles.rowFlexCenter}>
-                    <Text style={styles.idText}>Product ID:</Text>
+                    <Text style={styles.idText}>Product Name:</Text>
                     <View style={styles.container}>
                       {renderLabel()}
                       <Dropdown
@@ -371,7 +371,7 @@ const Inventory = () => {
                   <Button
                     color="#1A1A27"
                     containerStyle={styles.loginButton}
-                    onPress={handleButton2}>
+                    onPress={handleBuy}>
                     Buy
                   </Button>
                 </View>
