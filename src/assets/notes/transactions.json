@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "655c3d78473cd78bd97b623f"
+  },
+  "buyerId": 1,
+  "productName": "moongDal",
+  "productId": 1,
+  "category": "grocery",
+  "quantity": 2,
+  "amount": 30,
+  "type": "sell",
+  "date": {
+    "$date": "2023-11-21T05:17:44.840Z"
+  },
+  "__v": 0
+}]

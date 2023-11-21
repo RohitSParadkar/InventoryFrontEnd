@@ -5,6 +5,7 @@ import LoginPage from '../Login/LoginPage';
 import SignUp from '../Login/SignUp';
 import Home from '../screens/Home';
 import Buy from '../screens/Transcation/Buy';
+import History from '../screens/Transcation/History';
 import Flash from '../Login/Flash';
 import SignIn from '../Login/SignIn';
 import Inventory from '../screens/Inventory/Inventory';
@@ -15,7 +16,7 @@ import OtpVerification from '../Login/OtpVerification';
 const Stack = createNativeStackNavigator();
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="Sell" >
+    <Stack.Navigator initialRouteName="Buy" >
       <Stack.Screen
         name="SignIn"
         component={SignIn}
@@ -60,6 +61,7 @@ const AuthNavigator = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+          headerTitle: 'Transaction'
         }}
       />
        <Stack.Screen
@@ -74,6 +76,22 @@ const AuthNavigator = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+          headerTitle: 'Transaction'
+        }}
+      />
+       <Stack.Screen
+        name="History"
+        component={History}
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#1A1A27', // Set your desired background color
+          },
+          headerTintColor: '#FFFFFF', // Set your desired text color
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerTitle: 'Transaction'
         }}
       />
       <Stack.Screen

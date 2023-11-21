@@ -24,7 +24,8 @@ import {
 } from '../../../api/AuthApi';
 import UnderlineSVG from '../../../assets/svg/UnderlineSVG';
 
-const Sell = () => {
+
+const History = () => {
   const navigation = useNavigation();
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -45,20 +46,20 @@ const Sell = () => {
   const [transactionData, setTransactionData] = useState([]);
   const [itemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
   const [searchQuery, setSearchQuery] = useState('');
-
-  const fetchData = async () => {
-    try {
-      const res = await inventoryListsApi();
-      setInventoryListData(res);
-      const mappedData = res.map(product => ({
-        label: product.productName,
-        value: product.productID.toString(),
-      }));
-      setDropdownData(mappedData);
-    } catch (error) {
-      console.error('Error fetching inventory list:', error);
-    }
-  };
+ 
+//   const fetchData = async () => {
+//     try {
+//       const res = await inventoryListsApi();
+//       setInventoryListData(res);
+//       const mappedData = res.map(product => ({
+//         label: product.productName,
+//         value: product.productID.toString(),
+//       }));
+//       setDropdownData(mappedData);
+//     } catch (error) {
+//       console.error('Error fetching inventory list:', error);
+//     }
+//   };
 
   const fetchTransactionData = async () => {
     try {
@@ -70,7 +71,6 @@ const Sell = () => {
   };
 
   useEffect(() => {
-    fetchData();
     fetchTransactionData();
     setPage(0);
   }, [itemsPerPage]);
@@ -108,11 +108,9 @@ const Sell = () => {
     }
   });
 
-  const filteredItems = sortedItems.filter(item => item.type === 'sell');
 
-  const paginatedItems = filteredItems.slice(from, to);
-
-  const handleSell = async () => {
+const paginatedItems = sortedItems.slice(from, to);
+  const handleBuy = async () => {
     try {
       const res = await transactionAPI(
         buyerID,
@@ -120,7 +118,7 @@ const Sell = () => {
         category,
         quantity,
         amount,
-        'sell'
+        'buy'
       );
       setTransactionData(res);
       setModalVisible(!isModalVisible);
@@ -201,15 +199,17 @@ const Sell = () => {
         }}>
         <TouchableOpacity onPress={() => navigation.navigate('Buy')}>
           <Text style={styles.boldText}>Buy</Text>
+        
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('Sell')}>
           <Text style={[styles.boldText]}>Sell</Text>
-          <UnderlineSVG />
+          
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('History')}>
           <Text style={styles.boldText}>History</Text>
+            <UnderlineSVG />
         </TouchableOpacity>
       </View>
 
@@ -283,15 +283,6 @@ const Sell = () => {
             selectPageDropdownLabel={'Rows per page'}
           />
         </DataTable>
-
-        <TouchableOpacity onPress={handleAdd} style={styles.bottomContainer}>
-          <View style={styles.circle}>
-            <Image
-              style={styles.addLogo}
-              source={require('../../../assets/logo/add.png')}
-            />
-          </View>
-        </TouchableOpacity>
       </View>
 
       <View style={styles.bottomContainer}>
@@ -300,7 +291,7 @@ const Sell = () => {
             <Modal isVisible={isModalVisible}>
               <View style={[styles.modalContainer, {height: height * 0.6}]}>
                 <View style={styles.newProduct}>
-                  <Text style={styles.productTitle}>Sell</Text>
+                  <Text style={styles.productTitle}>Buy</Text>
                   <View style={styles.rowFlexCenter}>
                     <Text style={styles.idText}>Buyer:</Text>
                     <ModalAppInput
@@ -390,8 +381,8 @@ const Sell = () => {
                   <Button
                     color="#1A1A27"
                     containerStyle={styles.loginButton}
-                    onPress={handleSell}>
-                    Sell
+                    onPress={handleBuy}>
+                    Buy
                   </Button>
                 </View>
               </View>
@@ -403,7 +394,7 @@ const Sell = () => {
   );
 };
 
-export default Sell;
+export default History;
 const {width, height} = Dimensions.get('window');
 const styles = StyleSheet.create({
   scrollContainer: {

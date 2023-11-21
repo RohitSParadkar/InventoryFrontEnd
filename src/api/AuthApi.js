@@ -210,3 +210,23 @@ export const transactionAPI= async (
         return err
     }
 }
+
+export const searchByTransactionName = async (productName) => {
+    const options = {
+        method: 'POST',
+        url: 'http://10.0.2.2:8000/api/user/getTransactionsByProductName',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            "Access-Control-Allow-Origin": "*",
+        },
+        data: {productName:productName}
+    }
+    try {
+        // console.warn(options.data)
+        const response = await axios.request(options)
+        // console.warn(response)
+        return response.data;
+    } catch (err) {
+        return err
+    }
+}
