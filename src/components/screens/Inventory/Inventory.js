@@ -9,12 +9,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import { DataTable, Searchbar } from 'react-native-paper';
+import { DataTable, Searchbar,Provider } from 'react-native-paper';
 import { ModalAppInput } from '../../customComponents/AppInput';
 import { Button } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import { creatProductsApi, inventoryListsApi, searchByName } from '../../../api/AuthApi';
 import UnderlineSVG from '../../../assets/svg/UnderlineSVG';
+import CustomDialog from '../../customComponents/CustomDialog';
 
 const Inventory = () => {
   const navigation = useNavigation();
@@ -62,9 +63,9 @@ const Inventory = () => {
     setPage(0);
   }, [itemsPerPage]);
 
-  useEffect(() => {
-    console.warn(inventoryListData);
-  }, [inventoryListData]);
+  // useEffect(() => {
+  //   console.warn(inventoryListData);
+  // }, [inventoryListData]);
 
   useEffect(() => {
     const mappedItems = inventoryListData?.map((product) => ({
@@ -110,7 +111,7 @@ const Inventory = () => {
         setQuantity('');
         setAmount('');
         setExpiry('');
-        console.warn(inventoryListData);
+        // console.warn(inventoryListData);
       })
       .catch((err) => console.log(err));
   };
@@ -129,21 +130,21 @@ const Inventory = () => {
   return (
     <ScrollView style={styles.scrollContainer}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginBottom: 20 }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('OverView')}>
           <Text style={styles.boldText}>Overview</Text>
         </TouchableOpacity>
       
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Inventory')}>
             <Text style={[styles.boldText]}>Inventory</Text>
             <UnderlineSVG />
           </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Buy')}>
         <Text style={styles.boldText}>Transaction</Text>
         </TouchableOpacity>
           
    
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('TransactionStat')}>
         <Text style={styles.boldText}>Statement</Text>
         </TouchableOpacity>
          
@@ -188,6 +189,7 @@ const Inventory = () => {
             selectPageDropdownLabel={'Rows per page'}
           />
         </DataTable>
+        
         <TouchableOpacity onPress={handleButton1} style={styles.bottomContainer}>
           <View style={styles.circle}>
             <Image

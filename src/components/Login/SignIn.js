@@ -100,7 +100,7 @@ const SignIn = () => {
               alignItems: 'center',
               paddingBottom: 20, // Adjusted padding to avoid button being covered by keyboard
             }}>
-            <Button color="#1A1A27" containerStyle={styles.loginButton} onPress={() => navigation.navigate('InventoryHome')}>
+            <Button color="#1A1A27" containerStyle={styles.loginButton} onPress={() => navigation.navigate('OverView')}>
               Sign In
             </Button>
           </View>

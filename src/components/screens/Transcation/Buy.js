@@ -267,7 +267,7 @@ const Buy = () => {
               </DataTable.Cell>
               <DataTable.Cell
                 numeric
-                style={{justifyment: 'center', alignItems: 'center'}}>
+                style={{justifyment: 'center', alignItems: 'center',color:'green'}}>
                 {item.type}
               </DataTable.Cell>
             </DataTable.Row>
