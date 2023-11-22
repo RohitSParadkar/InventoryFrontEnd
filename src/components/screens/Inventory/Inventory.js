@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Modal from 'react-native-modal';
+import Toast from 'react-native-toast-message';
 import { DataTable, Searchbar,Provider } from 'react-native-paper';
 import { ModalAppInput } from '../../customComponents/AppInput';
 import { Button } from '@rneui/themed';
@@ -111,6 +112,11 @@ const Inventory = () => {
         setQuantity('');
         setAmount('');
         setExpiry('');
+        Toast.show({
+          type: 'success',
+          text1: 'Product ',
+          text2: 'Successfully added the product ! '
+        });
         // console.warn(inventoryListData);
       })
       .catch((err) => console.log(err));
@@ -257,7 +263,7 @@ const Inventory = () => {
                       onChangeText={setExpiry}
                       value={expiry}
                       autoFocus={true}
-                      placeholder={'Expiry Date'}
+                      placeholder={'DD/MM/YYYY'}
                     />
                   </View>
                 </View>

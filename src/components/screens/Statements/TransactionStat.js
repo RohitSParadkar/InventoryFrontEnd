@@ -1,10 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View,Button } from 'react-native'
+import Toast from 'react-native-toast-message';
 import React from 'react'
 
 const TransactionStat = () => {
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Hello',
+      text2: 'This is some something 👋'
+    });
+  }
   return (
     <View style={styles.transactionStatContainer}>
-      <Text>TransactionStat</Text>
+       <Button
+      title='Show toast'
+      onPress={showToast}
+    />
     </View>
   )
 }

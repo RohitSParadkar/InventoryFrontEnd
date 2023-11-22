@@ -1,21 +1,19 @@
-import { StyleSheet, View } from 'react-native'
-import React from 'react'
-import { Dialog, Portal, Text } from 'react-native-paper';
-
+import Toast from 'react-native-toast-message';
+import { Button ,StyleSheet} from 'react-native'
 
 const CustomDialog = () => {
-    const [visible, setVisible] = React.useState(false);
-    const hideDialog = () => setVisible(false);
+  const showToast = () => {
+    Toast.show({
+      type: 'success',
+      text1: 'Hello',
+      text2: 'This is some something 👋'
+    });
+  }
   return (
-    <Portal>
-      <Dialog visible={visible} onDismiss={hideDialog}>
-        <Dialog.Icon icon="alert" />
-        <Dialog.Title style={styles.title}>This is a title</Dialog.Title>
-        <Dialog.Content>
-          <Text variant="bodyMedium">This is simple dialog</Text>
-        </Dialog.Content>
-      </Dialog>
-    </Portal>
+    <Button
+      title='Show toast'
+      onPress={showToast}
+    />
   )
 }
 

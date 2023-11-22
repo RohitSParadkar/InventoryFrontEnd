@@ -78,7 +78,7 @@ const History = () => {
   useEffect(() => {
     const mappedItems =
       transactionData?.map(transaction => ({
-        key: transaction.productId,
+        key: transaction._Id,
         productName: transaction.productName,
         quantity: transaction.quantity,
         amount: transaction.amount,

@@ -12,6 +12,7 @@ import Modal from 'react-native-modal';
 import { DataTable, Searchbar } from 'react-native-paper';
 import { ModalAppInput } from '../../customComponents/AppInput';
 import { Button } from '@rneui/themed';
+import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
 import { Dropdown } from 'react-native-element-dropdown';
 import {
@@ -79,7 +80,7 @@ const Buy = () => {
   useEffect(() => {
     const mappedItems =
       transactionData?.map(transaction => ({
-        key: transaction.productId,
+        key: transaction._Id,
         productName: transaction.productName,
         quantity: transaction.quantity,
         amount: transaction.amount,
@@ -132,6 +133,11 @@ const Buy = () => {
       setQuantity('');
       setAmount('');
       setExpiry('');
+      Toast.show({
+        type: 'success',
+        text1: 'Order',
+        text2: 'Your buy order placed successfully ! '
+      });
     } catch (err) {
       console.log(err);
     }
@@ -308,7 +314,7 @@ const Buy = () => {
                       onChangeText={setBuyerID}
                       value={buyerID}
                       autoFocus={true}
-                      placeholder={'Buyer ID'}
+                      placeholder={'Seller ID'}
                     />
                   </View>
                   <View style={styles.rowFlexCenter}>

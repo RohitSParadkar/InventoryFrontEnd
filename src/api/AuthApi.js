@@ -202,7 +202,7 @@ export const transactionAPI= async (
         }
     }
     try {
-        console.warn(options.data)
+        // console.warn(options.data)
         const response = await axios.request(options)
         // console.warn(response)
         return response.data;

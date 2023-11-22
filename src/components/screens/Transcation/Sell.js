@@ -6,6 +6,8 @@ import {
   ScrollView,
   Dimensions,
   Image,
+  StatusBar,
+  ToastAndroid,
   TouchableOpacity,
 } from 'react-native';
 import Modal from 'react-native-modal';
@@ -14,6 +16,7 @@ import { ModalAppInput } from '../../customComponents/AppInput';
 import { Button } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import { Dropdown } from 'react-native-element-dropdown';
+import Toast from 'react-native-toast-message';
 import {
   creatProductsApi,
   inventoryListsApi,
@@ -78,7 +81,7 @@ const Sell = () => {
   useEffect(() => {
     const mappedItems =
       transactionData?.map(transaction => ({
-        key: transaction.productId,
+        key: transaction._Id,
         productName: transaction.productName,
         quantity: transaction.quantity,
         amount: transaction.amount,
@@ -131,6 +134,11 @@ const Sell = () => {
       setQuantity('');
       setAmount('');
       setExpiry('');
+      Toast.show({
+        type: 'success',
+        text1: 'Order',
+        text2: 'Your sell order placed successfully ! '
+      });
     } catch (err) {
       console.log(err);
     }
@@ -190,7 +198,6 @@ const Sell = () => {
       console.error(err);
     }
   };
-
   return (
     <ScrollView style={styles.scrollContainer}>
       <View
@@ -283,7 +290,6 @@ const Sell = () => {
             selectPageDropdownLabel={'Rows per page'}
           />
         </DataTable>
-
         <TouchableOpacity onPress={handleAdd} style={styles.bottomContainer}>
           <View style={styles.circle}>
             <Image
