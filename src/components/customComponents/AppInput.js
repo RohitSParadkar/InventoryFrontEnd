@@ -27,7 +27,6 @@ export const ModalAppInput = ({value,placeholder,onChange,...rest})=>{
 }
 
 export default AppInput
-const {width, height} = Dimensions.get('window');
 const styles = StyleSheet.create({
     input: {
       height: 40,

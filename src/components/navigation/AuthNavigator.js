@@ -1,14 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import LoginPage from '../Login/LoginPage';
 import SignUp from '../Login/SignUp';
 import Home from '../screens/Home';
 import OverView from '../screens/Inventory/OverView';
 import Buy from '../screens/Transcation/Buy';
+import Transaction from '../screens/Transcation/Transaction';
 import History from '../screens/Transcation/History';
 import Flash from '../Login/Flash';
 import SignIn from '../Login/SignIn';
+import OTP from '../Login/OTP';
 import TransactionStat from '../screens/Statements/TransactionStat';
 import Inventory from '../screens/Inventory/Inventory';
 import Sell from '../screens/Transcation/Sell';
@@ -16,9 +19,11 @@ import SignUPI from '../Login/SignUPI';
 import ForgotPassword from '../Login/ForgotPassword';
 import OtpVerification from '../Login/OtpVerification';
 const Stack = createNativeStackNavigator();
+const Tab = createMaterialTopTabNavigator();
+
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="OverView" >
+    <Stack.Navigator initialRouteName="OTP" >
       <Stack.Screen
         name="SignIn"
         component={SignIn}
@@ -45,7 +50,8 @@ const AuthNavigator = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-          headerTitle: 'Overview'
+          headerTitle: 'Overview',
+          gestureDirection:'horizontal'
         }}
       />
       <Stack.Screen
@@ -60,7 +66,8 @@ const AuthNavigator = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-          headerTitle: 'Statment'
+          headerTitle: 'Statment',
+          gestureDirection:'horizontal'
         }}
       />
       <Stack.Screen
@@ -75,6 +82,7 @@ const AuthNavigator = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
+          gestureDirection:'horizontal'
         }}
       />
       <Stack.Screen
@@ -89,7 +97,8 @@ const AuthNavigator = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-          headerTitle: 'Transaction'
+          headerTitle: 'Transaction',
+          gestureDirection:'horizontal'
         }}
       />
        <Stack.Screen
@@ -104,7 +113,8 @@ const AuthNavigator = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-          headerTitle: 'Transaction'
+          headerTitle: 'Transaction',
+          gestureDirection:'horizontal'
         }}
       />
        <Stack.Screen
@@ -119,17 +129,42 @@ const AuthNavigator = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-          headerTitle: 'Transaction'
+          headerTitle: 'Transaction',
+          gestureDirection:'horizontal'
         }}
       />
       <Stack.Screen
         name="OtpVerification"
         component={OtpVerification}
       />
+       <Stack.Screen
+        name="OTP"
+        component={OTP}
+      />
     </Stack.Navigator>
   )
-}
 
-export default AuthNavigator
 
-const styles = StyleSheet.create({})
+
+  
+  // return (
+  //   <Tab.Navigator initialRouteName="OverView">
+  //     <Tab.Screen
+  //       name="OverView"
+  //       component={OverView}
+  //       tabBarOptions={{
+  //         tabBarLabelStyle: {fontSize: 12},
+  //         tabBarItemStyle: {width: 100},
+  //         tabBarStyle: {backgroundColor: 'yellow'},
+  //       }}
+  //     />
+
+  //     <Tab.Screen name="Inventory" component={Inventory} />
+  //     <Tab.Screen name="Transaction" component={Transaction} />
+  //   </Tab.Navigator>
+  // );
+};
+
+export default AuthNavigator;
+
+const styles = StyleSheet.create({});
