@@ -35,18 +35,25 @@ const SignUPI = () => {
     setConfrPasswordVisible(!confrpasswordVisible);
   };
   const handleSignUpButton = async () => {
-    if (password != reEnterPassword) {
+    if (password !== reEnterPassword) {
       Toast.show({
         type: 'error',
         text1: 'Invalid Password',
-        text2: 'Password doesnt matched !',
+        text2: 'Password doesn\'t match!',
       });
     } else {
       try {
         const response = await signupApi(email, reEnterPassword);
         setSignupResponse(response);
-        console.warn(response)
-        navigation.navigate('OTP', {signupResponse});
+  
+        // Check if the response is successful before navigating
+        if (response && response._id) {
+          navigation.navigate('OTP', { signupResponse: response });
+        } else {
+          // Handle the case where the response is not as expected
+          console.warn('Invalid response from signupApi:', response);
+          // You may want to show an error message or take appropriate action
+        }
       } catch (error) {
         console.log(error);
       }

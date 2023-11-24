@@ -5,3 +5,7 @@ add the below url  :            apply from: file("../../node_modules/react-nativ
 in dropdown : ant design is not found   :solution => remove the antdesing comoponent 
 
 for tost message - react native toast message and add <Toast /> in the app.js 
+
+  //api calling error sometimes response is not get directly saved it 
+  const res = await emailVerfication(userId, otpValue);
+  setOtpVerifyResponse(res);

@@ -7,16 +7,23 @@ import {
   TouchableOpacity,
   ScrollView, // Import ScrollView
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState,useEffect} from 'react';
 import {Button} from '@rneui/themed';
+import { emailVerfication } from '../../api/AuthApi';
 import OTPTextInput from 'react-native-otp-textinput';
+import Toast from 'react-native-toast-message';
+import { useNavigation } from '@react-navigation/native';
 import OtpTimer from '../customComponents/OtpTimer';
 
-const OTP = () => {
+const OTP = ({ route }) => {
+  const navigation = useNavigation();
+  const { signupResponse } = route.params;
   const [timeSet, setTimeSet] = useState(true);
+  const [otpVerifyResponse, setOtpVerifyResponse] = useState();
   const [otpValue, setOtpValue] = useState('');
   const otpInput = useRef(null);
 
+  console.warn(signupResponse)
   const clearText = () => {
     if (otpInput.current) {
       otpInput.current.clear();
@@ -34,20 +41,39 @@ const OTP = () => {
     setOtpValue(value);
     console.warn(JSON.stringify(value));
   };
-  const  handleOtpVerification =async()=>{
-    // console.warn("befor api send")
-    const userId = signupResponse._id;
-    console.log(userId)
-    await emailVerfication(userId,userInput).then((res) => {
-        setOtpVerifyResponse(res);
-    }).catch(err=>(console.log(err)))
-    if(otpVerifyResponse.success){
-      console.warn("verification Successful")
-      navigation.navigate('Login')
-    }else{
-      console.warn("verification unsuccessful")
+
+
+  const handleOtpVerification = async () => {
+    try {
+      const userId = signupResponse._id;
+      console.log(userId);
+  
+      // Wait for the API call to complete using await
+      const res = await emailVerfication(userId, otpValue);
+  
+      // Update state after the API call is completed
+      setOtpVerifyResponse(res);
+  
+      if (res.success) {
+        Toast.show({
+          type: 'success',
+          text1: 'Sign up',
+          text2: 'Sign up Successful',
+        });
+        console.warn('Verification Successful');
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Sign up',
+          text2: 'Sign up Unsuccessful',
+        });
+        console.warn('Verification Unsuccessful');
+      }
+    } catch (error) {
+      console.log(error);
     }
-   }
+  };
+  
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
@@ -92,7 +118,7 @@ const OTP = () => {
               <Text style={styles.text}>Resend OTP</Text>
             </TouchableOpacity>
           </View>
-          <Button color="#1A1A27" containerStyle={styles.loginButton}>
+          <Button color="#1A1A27" containerStyle={styles.loginButton} onPress={handleOtpVerification}>
             Verify OTP
           </Button>
           <View
