@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   timerText: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });

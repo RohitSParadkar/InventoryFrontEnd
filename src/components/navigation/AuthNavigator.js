@@ -23,7 +23,7 @@ const Tab = createMaterialTopTabNavigator();
 
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator initialRouteName="OTP" >
+    <Stack.Navigator initialRouteName="Sign up" >
       <Stack.Screen
         name="SignIn"
         component={SignIn}

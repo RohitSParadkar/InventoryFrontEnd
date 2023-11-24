@@ -1,0 +1,4 @@
+import { useRoute } from '@react-navigation/native';
+const route = useRoute();
+() => navigation.navigate('Sign up',{caption:`${email}`})   
+<Text>{route.params.caption}</Text> 

@@ -9,17 +9,23 @@ import {
   ScrollView, // Import ScrollView
 } from 'react-native';
 import {Button} from '@rneui/themed';
+import Toast from 'react-native-toast-message';
 import AppInput from '../customComponents/AppInput';
+import {TextInput} from 'react-native-paper';
 import UnderlineSVG, {LoginEyeIcon} from '../../assets/svg/UnderlineSVG';
-import { useNavigation } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {signupApi} from '../../api/AuthApi';
 
 const SignUPI = () => {
+  const route = useRoute();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [reEnterPassword, setReEnterPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(true);
+  const [signupResponse, setSignupResponse] = useState(null);
   const [confrpasswordVisible, setConfrPasswordVisible] = useState(true);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const handlePasswordShow = () => {
@@ -28,6 +34,25 @@ const SignUPI = () => {
   const handleConfrPasswordShow = () => {
     setConfrPasswordVisible(!confrpasswordVisible);
   };
+  const handleSignUpButton = async () => {
+    if (password != reEnterPassword) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Password',
+        text2: 'Password doesnt matched !',
+      });
+    } else {
+      try {
+        const response = await signupApi(email, reEnterPassword);
+        setSignupResponse(response);
+        console.warn(response)
+        navigation.navigate('OTP', {signupResponse});
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       {/* Wrap your existing code inside ScrollView */}
@@ -46,9 +71,9 @@ const SignUPI = () => {
               </TouchableOpacity>
             </View>
             <View>
-            <TouchableOpacity>
-              <Text style={styles.boldText}>Sign Up</Text>
-              <UnderlineSVG />
+              <TouchableOpacity>
+                <Text style={styles.boldText}>Sign Up</Text>
+                <UnderlineSVG />
               </TouchableOpacity>
             </View>
           </View>
@@ -104,7 +129,10 @@ const SignUPI = () => {
               alignItems: 'center',
               paddingBottom: 20, // Adjusted padding to avoid button being covered by keyboard
             }}>
-            <Button color="#1A1A27" containerStyle={styles.loginButton}>
+            <Button
+              color="#1A1A27"
+              containerStyle={styles.loginButton}
+              onPress={handleSignUpButton}>
               Sign Up
             </Button>
           </View>

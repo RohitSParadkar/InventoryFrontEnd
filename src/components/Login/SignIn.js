@@ -42,7 +42,7 @@ const SignIn = () => {
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate('Sign up')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Sign up',{caption:`${email}`})}>
               <Text>Sign Up</Text>
               </TouchableOpacity>
             </View>
