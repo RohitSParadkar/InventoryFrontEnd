@@ -1,7 +1,9 @@
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 import LoginPage from '../Login/LoginPage';
 import SignUp from '../Login/SignUp';
 import Home from '../screens/Home';
@@ -22,8 +24,9 @@ const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 const AuthNavigator = () => {
+  const navigation = useNavigation();
   return (
-    <Stack.Navigator initialRouteName="Sign up" >
+    <Stack.Navigator initialRouteName="SignIn" >
       <Stack.Screen
         name="SignIn"
         component={SignIn}
@@ -39,8 +42,8 @@ const AuthNavigator = () => {
         component={ForgotPassword}
       />
       <Stack.Screen
-       name="OverView"
-       component={OverView}
+        name="OverView"
+        component={OverView}
         options={{
           headerShown: true,
           headerStyle: {
@@ -51,12 +54,26 @@ const AuthNavigator = () => {
             fontWeight: 'bold',
           },
           headerTitle: 'Overview',
-          gestureDirection:'horizontal'
+          headerBackVisible: false,
+          gestureDirection: 'horizontal',
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ marginRight: 10 }}
+              onPress={async () => {
+                // Clear AsyncStorage data here
+                await AsyncStorage.clear();
+
+                // Navigate to the sign-in screen
+                navigation.navigate('Sign up');
+              }}>
+              <Text style={{ color: '#FFFFFF', fontSize: 18 }}>Logout</Text>
+            </TouchableOpacity>
+          ),
         }}
       />
       <Stack.Screen
-       name="TransactionStat"
-       component={TransactionStat}
+        name="TransactionStat"
+        component={TransactionStat}
         options={{
           headerShown: true,
           headerStyle: {
@@ -67,7 +84,7 @@ const AuthNavigator = () => {
             fontWeight: 'bold',
           },
           headerTitle: 'Statment',
-          gestureDirection:'horizontal'
+          gestureDirection: 'horizontal'
         }}
       />
       <Stack.Screen
@@ -82,7 +99,7 @@ const AuthNavigator = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-          gestureDirection:'horizontal'
+          gestureDirection: 'horizontal'
         }}
       />
       <Stack.Screen
@@ -98,10 +115,10 @@ const AuthNavigator = () => {
             fontWeight: 'bold',
           },
           headerTitle: 'Transaction',
-          gestureDirection:'horizontal'
+          gestureDirection: 'horizontal'
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="Sell"
         component={Sell}
         options={{
@@ -114,10 +131,10 @@ const AuthNavigator = () => {
             fontWeight: 'bold',
           },
           headerTitle: 'Transaction',
-          gestureDirection:'horizontal'
+          gestureDirection: 'horizontal'
         }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="History"
         component={History}
         options={{
@@ -130,14 +147,14 @@ const AuthNavigator = () => {
             fontWeight: 'bold',
           },
           headerTitle: 'Transaction',
-          gestureDirection:'horizontal'
+          gestureDirection: 'horizontal'
         }}
       />
       <Stack.Screen
         name="OtpVerification"
         component={OtpVerification}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="OTP"
         component={OTP}
       />
@@ -146,7 +163,7 @@ const AuthNavigator = () => {
 
 
 
-  
+
   // return (
   //   <Tab.Navigator initialRouteName="OverView">
   //     <Tab.Screen

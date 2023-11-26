@@ -61,6 +61,7 @@ const OTP = ({ route }) => {
           text2: 'Sign up Successful',
         });
         console.warn('Verification Successful');
+        navigation.navigate('SignIn')
       } else {
         Toast.show({
           type: 'error',

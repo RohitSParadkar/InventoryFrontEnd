@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   StyleSheet,
   Text,
@@ -6,26 +7,101 @@ import {
   Image,
   Switch,
   TouchableOpacity,
-  ScrollView, // Import ScrollView
+  ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import { Button } from '@rneui/themed';
-import AppInput from '../customComponents/AppInput';
-import UnderlineSVG from '../../assets/svg/UnderlineSVG';
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
+import AppInput from '../customComponents/AppInput';
+import { LoginApi } from '../../api/AuthApi';
+import UnderlineSVG from '../../assets/svg/UnderlineSVG';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isEnabled, setIsEnabled] = useState(false);
-  const [passwordVisible,setPasswordVisible] =useState(true)
-  const navigation = useNavigation()
+  const [passwordVisible, setPasswordVisible] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    const checkStoredCredentials = async () => {
+      try {
+        setLoading(true);
+
+        const storedEmail = await AsyncStorage.getItem('userEmail');
+        const storedPassword = await AsyncStorage.getItem('userPassword');
+
+        if (storedEmail && storedPassword) {
+          const response = await LoginApi(storedEmail, storedPassword);
+
+          if (response.success) {
+            navigation.navigate('OverView');
+            Toast.show({
+              type: 'success',
+              text1: 'Sign In',
+              text2: 'Sign in Successful',
+            });
+          } else {
+            Toast.show({
+              type: 'error',
+              text1: 'Sign In',
+              text2: 'Incorrect email or password',
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Error retrieving stored credentials:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkStoredCredentials();
+  }, [navigation]);
+
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-  const handlePasswordShow = ()=>{
-    setPasswordVisible(!passwordVisible)
-  }
+
+  const handlePasswordShow = () => {
+    setPasswordVisible((prevVisible) => !prevVisible);
+  };
+
+  const handleLoginButton = async () => {
+    try {
+      setLoading(true);
+
+      const response = await LoginApi(email, password);
+
+      if (response.success) {
+        Toast.show({
+          type: 'success',
+          text1: 'Sign In',
+          text2: 'Sign in Successful',
+        });
+
+        if (isEnabled) {
+          await AsyncStorage.setItem('userEmail', email);
+          await AsyncStorage.setItem('userPassword', password);
+        }
+
+        navigation.navigate('OverView');
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: 'Sign In',
+          text2: 'Incorrect email or password',
+        });
+      }
+    } catch (error) {
+      console.log("Error during login:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      {/* Wrap your existing code inside ScrollView */}
       <View style={styles.signInContainer}>
         <View style={styles.topContainer}>
           <Image
@@ -37,13 +113,13 @@ const SignIn = () => {
           <View style={{ flexDirection: 'row', marginBottom: 20 }}>
             <View>
               <TouchableOpacity>
-              <Text style={[{ marginRight: 40 }, styles.boldText]}>Sign In </Text>
-              <UnderlineSVG />
+                <Text style={[{ marginRight: 40 }, styles.boldText]}>Sign In </Text>
+                <UnderlineSVG />
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate('Sign up',{caption:`${email}`})}>
-              <Text>Sign Up</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('Sign up', { caption: `${email}` })}>
+                <Text>Sign Up</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -57,18 +133,18 @@ const SignIn = () => {
             />
             <Text>Password</Text>
             <View>
-            <AppInput
-              onChangeText={setPassword}
-              value={password}
-              autoFocus={true}
-              placeholder={'Enter Password'}
-              secureTextEntry={passwordVisible}
-            />
-              <TouchableOpacity style={{position:'absolute',top:20,right:50}} onPress={handlePasswordShow}>
-              <Image
-                style={{width: 20, height: 20,}}
-                source={require('../../assets/logo/Iconseye.png')}
+              <AppInput
+                onChangeText={setPassword}
+                value={password}
+                autoFocus={true}
+                placeholder={'Enter Password'}
+                secureTextEntry={passwordVisible}
               />
+              <TouchableOpacity style={{ position: 'absolute', top: 20, right: 50 }} onPress={handlePasswordShow}>
+                <Image
+                  style={{ width: 20, height: 20, }}
+                  source={require('../../assets/logo/Iconseye.png')}
+                />
               </TouchableOpacity>
             </View>
           </View>
@@ -98,11 +174,18 @@ const SignIn = () => {
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              paddingBottom: 20, // Adjusted padding to avoid button being covered by keyboard
+              paddingBottom: 20,
             }}>
-            <Button color="#1A1A27" containerStyle={styles.loginButton} onPress={() => navigation.navigate('OverView')}>
-              Sign In
-            </Button>
+            {loading ? (
+              <ActivityIndicator size="large" color="#1A1A27" />
+            ) : (
+              <Button
+                color="#1A1A27"
+                containerStyle={styles.loginButton}
+                onPress={handleLoginButton}>
+                Sign In
+              </Button>
+            )}
           </View>
         </View>
       </View>
@@ -110,11 +193,15 @@ const SignIn = () => {
   );
 };
 
+SignIn.navigationOptions = {
+  headerLeft: null,
+};
+
 export default SignIn;
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
-    flexGrow: 1, // Added flexGrow to allow content to be scrollable
+    flexGrow: 1,
   },
   signInContainer: {
     flex: 1,
@@ -142,6 +229,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  textInput: {
+    marginBottom: 20,
+  },
   loginButton: {
     width: 305,
     marginBottom: 43,
@@ -157,4 +247,3 @@ const styles = StyleSheet.create({
     letterSpacing: 0.2,
   },
 });
-
