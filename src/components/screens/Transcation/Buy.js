@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,12 +9,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import { DataTable, Searchbar } from 'react-native-paper';
-import { ModalAppInput } from '../../customComponents/AppInput';
-import { Button } from '@rneui/themed';
+import {DataTable, Searchbar, Dialog, Portal} from 'react-native-paper';
+import {PaperProvider} from 'react-native-paper';
+import {ModalAppInput} from '../../customComponents/AppInput';
+import {Button} from '@rneui/themed';
 import Toast from 'react-native-toast-message';
-import { useNavigation } from '@react-navigation/native';
-import { Dropdown } from 'react-native-element-dropdown';
+import {useNavigation} from '@react-navigation/native';
+import {Dropdown} from 'react-native-element-dropdown';
 import {
   creatProductsApi,
   inventoryListsApi,
@@ -22,13 +23,14 @@ import {
   inventoryByProductid,
   transactionAPI,
   transactionsListsApi,
+  transactionById,
 } from '../../../api/AuthApi';
 import UnderlineSVG from '../../../assets/svg/UnderlineSVG';
-
 
 const Buy = () => {
   const navigation = useNavigation();
   const [value, setValue] = useState(null);
+  const [visible, setVisible] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [buyerID, setBuyerID] = useState('');
@@ -41,13 +43,16 @@ const Buy = () => {
   const [page, setPage] = useState(0);
   const [sort, setSort] = useState('descending');
   const [inventoryListData, setInventoryListData] = useState([]);
+  const [transactionDetails, setTransactionDetails] = useState();
   const [availableQnt, setAvailableQnt] = useState();
   const [numberOfItemsPerPageList] = useState([4, 5, 6]);
   const [dropdownData, setDropdownData] = useState([]);
   const [transactionData, setTransactionData] = useState([]);
-  const [itemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
+  const [itemsPerPage, onItemsPerPageChange] = useState(
+    numberOfItemsPerPageList[0],
+  );
   const [searchQuery, setSearchQuery] = useState('');
- 
+
   const fetchData = async () => {
     try {
       const res = await inventoryListsApi();
@@ -80,7 +85,7 @@ const Buy = () => {
   useEffect(() => {
     const mappedItems =
       transactionData?.map(transaction => ({
-        key: transaction._Id,
+        key: transaction._id,
         productName: transaction.productName,
         quantity: transaction.quantity,
         amount: transaction.amount,
@@ -99,7 +104,9 @@ const Buy = () => {
   }, [itemsPerPage]);
 
   const handleSort = () => {
-    setSort(prevSort => (prevSort === 'descending' ? 'ascending' : 'descending'));
+    setSort(prevSort =>
+      prevSort === 'descending' ? 'ascending' : 'descending',
+    );
   };
 
   const sortedItems = [...items].sort((a, b) => {
@@ -122,7 +129,7 @@ const Buy = () => {
         category,
         quantity,
         amount,
-        'buy'
+        'buy',
       );
       setTransactionData(res);
       setModalVisible(!isModalVisible);
@@ -136,7 +143,7 @@ const Buy = () => {
       Toast.show({
         type: 'success',
         text1: 'Order',
-        text2: 'Your buy order placed successfully ! '
+        text2: 'Your buy order placed successfully ! ',
       });
     } catch (err) {
       console.log(err);
@@ -164,7 +171,7 @@ const Buy = () => {
   const handleAdd = () => {
     setModalVisible(!isModalVisible);
     setAvailableQnt(null);
-    setBuyerID('')
+    setBuyerID('');
     setValue(null);
     setProductID('');
     setCategory('');
@@ -176,7 +183,7 @@ const Buy = () => {
   const renderLabel = () => {
     if (value || isFocus) {
       return (
-        <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+        <Text style={[styles.label, isFocus && {color: 'blue'}]}>
           Product Name
         </Text>
       );
@@ -198,6 +205,17 @@ const Buy = () => {
     }
   };
 
+  const handleCellClick = async cellData => {
+    try {
+      const res = await transactionById(cellData.key);
+      setTransactionDetails(res);
+      console.warn(res);
+      setVisible(!visible);
+    } catch (error) {
+      console.error('Error fetching transaction details:', error);
+    }
+  };
+
   return (
     <ScrollView style={styles.scrollContainer}>
       <View
@@ -213,7 +231,6 @@ const Buy = () => {
 
         <TouchableOpacity onPress={() => navigation.navigate('Sell')}>
           <Text style={[styles.boldText]}>Sell</Text>
-          
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate('History')}>
@@ -256,7 +273,7 @@ const Buy = () => {
           </DataTable.Header>
 
           {paginatedItems.map(item => (
-            <DataTable.Row key={item.key}>
+            <DataTable.Row key={item.key} onPress={() => handleCellClick(item)}>
               <DataTable.Cell
                 style={{justifyContent: 'center', alignItems: 'center'}}>
                 {item.productName}
@@ -273,7 +290,11 @@ const Buy = () => {
               </DataTable.Cell>
               <DataTable.Cell
                 numeric
-                style={{justifyment: 'center', alignItems: 'center',color:'green'}}>
+                style={{
+                  justifyment: 'center',
+                  alignItems: 'center',
+                  color: 'green',
+                }}>
                 {item.type}
               </DataTable.Cell>
             </DataTable.Row>
@@ -405,6 +426,60 @@ const Buy = () => {
             </Modal>
           </ScrollView>
         </View>
+        {/* another modal */}
+        {visible&&<View style={{flex: 1}}>
+          <ScrollView>
+            <Modal isVisible={visible}>
+              <View style={[styles.modalContainer, {height: height * 0.6}]}>
+                <View style={styles.newProduct}>
+                  <Text style={styles.productTitle}>Product Details</Text>
+                  <View style={styles.rowFlexCenter}>
+                    <Text style={[styles.idText,styles.flexStart]}>Transction ID :</Text>
+                    <Text>{transactionDetails[0]._id}</Text>
+                  </View>
+                  <View style={styles.rowFlexCenter}>
+                    <Text style={[styles.idText,styles.flexStart]}>Buyer ID :</Text>
+                    <Text style={{justifyContent:'flex-start'}}>{transactionDetails[0].buyerId}</Text>
+                  </View>
+                  <View style={styles.rowFlexCenter}>
+                    <Text style={styles.idText}>Product Name :</Text>
+                    <Text>{transactionDetails[0].productName}</Text>
+                  </View>
+                  <View style={styles.rowFlexCenter}>
+                    <Text style={styles.idText}>Product ID :</Text>
+                    <Text>{transactionDetails[0].productId}</Text>
+                  </View>
+                  <View style={styles.rowFlexCenter}>
+                    <Text style={styles.idText}>Category :</Text>
+                    <Text>{transactionDetails[0].category}</Text>
+                  </View>
+                  <View style={styles.rowFlexCenter}>
+                    <Text style={styles.idText}>Quantity :</Text>
+                    <Text>{transactionDetails[0].quantity}</Text>
+                  </View>
+                  <View style={styles.rowFlexCenter}>
+                    <Text style={styles.idText}>Amount :</Text>
+                    <Text>{transactionDetails[0].amount}</Text>
+                  </View>
+                  <View style={styles.rowFlexCenter}>
+                    <Text style={styles.idText}>Transction Type :</Text>
+                    <Text>{transactionDetails[0].type}</Text>
+                  </View>
+                  <View style={styles.rowFlexCenter}>
+                    <Text style={styles.idText}>Date :</Text>
+                    <Text>{transactionDetails[0].date}</Text>
+                  </View>
+                  <Button
+                    color="#1A1A27"
+                    containerStyle={styles.loginButton}
+                    onPress={()=>{setVisible(!visible);}}>
+                    Close
+                  </Button>
+                </View>
+              </View>
+            </Modal>
+          </ScrollView>
+        </View>}
       </View>
     </ScrollView>
   );
@@ -454,6 +529,7 @@ const styles = StyleSheet.create({
   rowFlexCenter: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+    margin:10,
     alignItems: 'center',
   },
   idText: {
@@ -461,6 +537,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: '#48505E',
+  },
+  flexStart:{
+    justifyContent:'flex-start'
   },
   productTitle: {
     fontFamily: 'Inter',

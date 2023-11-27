@@ -26,7 +26,7 @@ const Tab = createMaterialTopTabNavigator();
 const AuthNavigator = () => {
   const navigation = useNavigation();
   return (
-    <Stack.Navigator initialRouteName="SignIn" >
+    <Stack.Navigator initialRouteName="Buy" >
       <Stack.Screen
         name="SignIn"
         component={SignIn}
