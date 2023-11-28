@@ -209,7 +209,6 @@ const Buy = () => {
     try {
       const res = await transactionById(cellData.key);
       setTransactionDetails(res);
-      console.warn(res);
       setVisible(!visible);
     } catch (error) {
       console.error('Error fetching transaction details:', error);
@@ -427,59 +426,66 @@ const Buy = () => {
           </ScrollView>
         </View>
         {/* another modal */}
-        {visible&&<View style={{flex: 1}}>
-          <ScrollView>
-            <Modal isVisible={visible}>
-              <View style={[styles.modalContainer, {height: height * 0.6}]}>
-                <View style={styles.newProduct}>
+        {visible && (
+          <View style={{flex: 1}}>
+            <ScrollView>
+              <Modal isVisible={visible}>
+                <View style={[styles.modalContainer, {height: height * 0.5,padding:15}]}>
                   <Text style={styles.productTitle}>Product Details</Text>
-                  <View style={styles.rowFlexCenter}>
-                    <Text style={[styles.idText,styles.flexStart]}>Transction ID :</Text>
-                    <Text>{transactionDetails[0]._id}</Text>
+                  <View style={{flex: 1, flexDirection: 'row'}}>
+                    <View style={{flex: 0.55, rowGap: 10}}>
+                      <Text style={[styles.idText]}>Transction ID :</Text>
+                      <Text style={[styles.idText]}>Buyer ID :</Text>
+                      <Text style={styles.idText}>Product Name :</Text>
+                      <Text style={styles.idText}>Category :</Text>
+                      <Text style={styles.idText}>Quantity :</Text>
+                      <Text style={styles.idText}>Amount :</Text>
+                      <Text style={styles.idText}>Transction:</Text>
+                      <Text style={styles.idText}>Date :</Text>
+                    </View>
+                    <View style={{flex: 1, rowGap: 10}}>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0]._id}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].buyerId}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].productId}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].category}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].quantity}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].amount}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].type}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].date}
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.rowFlexCenter}>
-                    <Text style={[styles.idText,styles.flexStart]}>Buyer ID :</Text>
-                    <Text style={{justifyContent:'flex-start'}}>{transactionDetails[0].buyerId}</Text>
+                  <View
+                    style={{alignItems: 'flex-end', justifyContent: 'center'}}>
+                    <Button
+                      color="#1A1A27"
+                      containerStyle={styles.loginButton}
+                      onPress={() => {
+                        setVisible(!visible);
+                      }}>
+                      Close
+                    </Button>
                   </View>
-                  <View style={styles.rowFlexCenter}>
-                    <Text style={styles.idText}>Product Name :</Text>
-                    <Text>{transactionDetails[0].productName}</Text>
-                  </View>
-                  <View style={styles.rowFlexCenter}>
-                    <Text style={styles.idText}>Product ID :</Text>
-                    <Text>{transactionDetails[0].productId}</Text>
-                  </View>
-                  <View style={styles.rowFlexCenter}>
-                    <Text style={styles.idText}>Category :</Text>
-                    <Text>{transactionDetails[0].category}</Text>
-                  </View>
-                  <View style={styles.rowFlexCenter}>
-                    <Text style={styles.idText}>Quantity :</Text>
-                    <Text>{transactionDetails[0].quantity}</Text>
-                  </View>
-                  <View style={styles.rowFlexCenter}>
-                    <Text style={styles.idText}>Amount :</Text>
-                    <Text>{transactionDetails[0].amount}</Text>
-                  </View>
-                  <View style={styles.rowFlexCenter}>
-                    <Text style={styles.idText}>Transction Type :</Text>
-                    <Text>{transactionDetails[0].type}</Text>
-                  </View>
-                  <View style={styles.rowFlexCenter}>
-                    <Text style={styles.idText}>Date :</Text>
-                    <Text>{transactionDetails[0].date}</Text>
-                  </View>
-                  <Button
-                    color="#1A1A27"
-                    containerStyle={styles.loginButton}
-                    onPress={()=>{setVisible(!visible);}}>
-                    Close
-                  </Button>
                 </View>
-              </View>
-            </Modal>
-          </ScrollView>
-        </View>}
+              </Modal>
+            </ScrollView>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
@@ -529,7 +535,6 @@ const styles = StyleSheet.create({
   rowFlexCenter: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    margin:10,
     alignItems: 'center',
   },
   idText: {
@@ -538,8 +543,8 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#48505E',
   },
-  flexStart:{
-    justifyContent:'flex-start'
+  flexStart: {
+    justifyContent: 'flex-start',
   },
   productTitle: {
     fontFamily: 'Inter',

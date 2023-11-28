@@ -19,6 +19,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import Toast from 'react-native-toast-message';
 import {
   creatProductsApi,
+  transactionById,
   inventoryListsApi,
   searchByTransactionName,
   inventoryByProductid,
@@ -29,6 +30,7 @@ import UnderlineSVG from '../../../assets/svg/UnderlineSVG';
 
 const Sell = () => {
   const navigation = useNavigation();
+  const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -39,6 +41,7 @@ const Sell = () => {
   const [amount, setAmount] = useState('');
   const [expiry, setExpiry] = useState('');
   const [response, setResponse] = useState();
+  const [transactionDetails, setTransactionDetails] = useState();
   const [page, setPage] = useState(0);
   const [sort, setSort] = useState('descending');
   const [inventoryListData, setInventoryListData] = useState([]);
@@ -81,7 +84,7 @@ const Sell = () => {
   useEffect(() => {
     const mappedItems =
       transactionData?.map(transaction => ({
-        key: transaction._Id,
+        key: transaction._id,
         productName: transaction.productName,
         quantity: transaction.quantity,
         amount: transaction.amount,
@@ -198,6 +201,15 @@ const Sell = () => {
       console.error(err);
     }
   };
+  const handleCellClick = async cellData => {
+    try {
+      const res = await transactionById(cellData.key);
+      setTransactionDetails(res);
+      setVisible(!visible);
+    } catch (error) {
+      console.error('Error fetching transaction details:', error);
+    }
+  };
   return (
     <ScrollView style={styles.scrollContainer}>
       <View
@@ -255,7 +267,7 @@ const Sell = () => {
           </DataTable.Header>
 
           {paginatedItems.map(item => (
-            <DataTable.Row key={item.key}>
+            <DataTable.Row key={item.key} onPress={() => handleCellClick(item)}>
               <DataTable.Cell
                 style={{justifyContent: 'center', alignItems: 'center'}}>
                 {item.productName}
@@ -404,6 +416,68 @@ const Sell = () => {
             </Modal>
           </ScrollView>
         </View>
+      </View>
+      <View>
+      {visible && (
+          <View style={{flex: 1}}>
+            <ScrollView>
+              <Modal isVisible={visible}>
+                <View style={[styles.modalContainer, {height: height * 0.5,padding:15}]}>
+                  <Text style={styles.productTitle}>Product Details</Text>
+                  <View style={{flex: 1, flexDirection: 'row'}}>
+                    <View style={{flex: 0.55, rowGap: 10}}>
+                      <Text style={[styles.idText]}>Transction ID :</Text>
+                      <Text style={[styles.idText]}>Buyer ID :</Text>
+                      <Text style={styles.idText}>Product Name :</Text>
+                      <Text style={styles.idText}>Category :</Text>
+                      <Text style={styles.idText}>Quantity :</Text>
+                      <Text style={styles.idText}>Amount :</Text>
+                      <Text style={styles.idText}>Transction:</Text>
+                      <Text style={styles.idText}>Date :</Text>
+                    </View>
+                    <View style={{flex: 1, rowGap: 10}}>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0]._id}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].buyerId}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].productId}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].category}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].quantity}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].amount}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].type}
+                      </Text>
+                      <Text style={[styles.idText]}>
+                        {transactionDetails[0].date}
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={{alignItems: 'flex-end', justifyContent: 'center'}}>
+                    <Button
+                      color="#1A1A27"
+                      containerStyle={styles.loginButton}
+                      onPress={() => {
+                        setVisible(!visible);
+                      }}>
+                      Close
+                    </Button>
+                  </View>
+                </View>
+              </Modal>
+            </ScrollView>
+          </View>
+        )}
       </View>
     </ScrollView>
   );
