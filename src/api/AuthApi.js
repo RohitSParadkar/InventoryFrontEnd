@@ -252,7 +252,7 @@ export const searchByTransactionName = async (productName) => {
     }
 }
 
-export const OverView = async () => {
+export const overViewAPI= async () => {
     const options = {
         method: 'POST',
         url: 'http://10.0.2.2:8000/api/user/OverView',
