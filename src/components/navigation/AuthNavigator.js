@@ -14,7 +14,7 @@ import History from '../screens/Transcation/History';
 import Flash from '../Login/Flash';
 import SignIn from '../Login/SignIn';
 import OTP from '../Login/OTP';
-import TransactionStat from '../screens/Statements/TransactionStat';
+import Seller from '../screens/Statements/Seller';
 import Inventory from '../screens/Inventory/Inventory';
 import Sell from '../screens/Transcation/Sell';
 import SignUPI from '../Login/SignUPI';
@@ -26,7 +26,7 @@ const Tab = createMaterialTopTabNavigator();
 const AuthNavigator = () => {
   const navigation = useNavigation();
   return (
-    <Stack.Navigator initialRouteName="Buy" >
+    <Stack.Navigator initialRouteName="SignIn" >
       <Stack.Screen
         name="SignIn"
         component={SignIn}
@@ -72,8 +72,8 @@ const AuthNavigator = () => {
         }}
       />
       <Stack.Screen
-        name="TransactionStat"
-        component={TransactionStat}
+        name="Seller"
+        component={Seller}
         options={{
           headerShown: true,
           headerStyle: {
@@ -83,7 +83,6 @@ const AuthNavigator = () => {
           headerTitleStyle: {
             fontWeight: 'bold',
           },
-          headerTitle: 'Statment',
           gestureDirection: 'horizontal'
         }}
       />

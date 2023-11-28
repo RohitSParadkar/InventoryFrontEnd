@@ -251,3 +251,23 @@ export const searchByTransactionName = async (productName) => {
         return err
     }
 }
+
+export const OverView = async () => {
+    const options = {
+        method: 'POST',
+        url: 'http://10.0.2.2:8000/api/user/OverView',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            "Access-Control-Allow-Origin": "*",
+        },
+        data: {}
+    }
+    try {
+        // console.warn(options.data)
+        const response = await axios.request(options)
+        // console.warn(response)
+        return response.data;
+    } catch (err) {
+        return err
+    }
+}

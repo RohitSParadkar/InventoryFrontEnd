@@ -127,8 +127,8 @@ const OverView = () => {
               <Text style={styles.boldText}>Transaction</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => navigation.navigate('TransactionStat')}>
-              <Text style={styles.boldText}>Statement</Text>
+              onPress={() => navigation.navigate('Seller')}>
+              <Text style={styles.boldText}>Sellers</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.header}>

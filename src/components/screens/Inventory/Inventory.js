@@ -150,8 +150,8 @@ const Inventory = () => {
         </TouchableOpacity>
           
    
-        <TouchableOpacity onPress={() => navigation.navigate('TransactionStat')}>
-        <Text style={styles.boldText}>Statement</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Seller')}>
+        <Text style={styles.boldText}>Suppliers</Text>
         </TouchableOpacity>
          
       </View>

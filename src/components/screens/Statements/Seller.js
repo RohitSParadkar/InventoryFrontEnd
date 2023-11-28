@@ -2,7 +2,7 @@ import { StyleSheet, Text, View,Button } from 'react-native'
 import Toast from 'react-native-toast-message';
 import React from 'react'
 
-const TransactionStat = () => {
+const Seller = () => {
   const showToast = () => {
     Toast.show({
       type: 'success',
@@ -20,7 +20,7 @@ const TransactionStat = () => {
   )
 }
 
-export default TransactionStat
+export default Seller
 
 const styles = StyleSheet.create({
     transactionStatContainer:{

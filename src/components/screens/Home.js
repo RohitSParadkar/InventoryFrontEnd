@@ -90,7 +90,7 @@ export default class Home extends Component {
                 <Text style={styles.boldText}>Transaction</Text>
               </View>
               <View>
-                <Text style={styles.boldText}>Statement</Text>
+                <Text style={styles.boldText}>Supplier</Text>
               </View>
             </View>
             <View style={styles.header}>
