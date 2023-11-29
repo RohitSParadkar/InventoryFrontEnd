@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View,Button } from 'react-native'
 import Toast from 'react-native-toast-message';
 import React from 'react'
+import SalesInvoice from '../../customComponents/SalesInvoice';
 
 const Seller = () => {
   const showToast = () => {
@@ -16,6 +17,7 @@ const Seller = () => {
       title='Show toast'
       onPress={showToast}
     />
+    <SalesInvoice/>
     </View>
   )
 }

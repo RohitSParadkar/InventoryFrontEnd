@@ -164,7 +164,7 @@ const OverView = () => {
                   Product Name
                 </DataTable.Title>
                 <DataTable.Title numeric style={styles.tableHeader}>
-                  Price
+                  Avg Price
                 </DataTable.Title>
                 <DataTable.Title numeric style={styles.tableHeader}>
                   Quantity
@@ -176,7 +176,7 @@ const OverView = () => {
                   <DataTable.Row key={item._id}>
                     <DataTable.Cell>{item.productName}</DataTable.Cell>
                     {/* Assuming you have price and quantity values available */}
-                    <DataTable.Cell numeric>{/* Price value */}</DataTable.Cell>
+                    <DataTable.Cell numeric>{item.averagePrice}</DataTable.Cell>
                     <DataTable.Cell numeric>{item.productCount}</DataTable.Cell>
                   </DataTable.Row>
                 ))}

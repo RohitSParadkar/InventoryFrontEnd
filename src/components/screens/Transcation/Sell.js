@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,11 +11,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import { DataTable, Searchbar } from 'react-native-paper';
-import { ModalAppInput } from '../../customComponents/AppInput';
-import { Button } from '@rneui/themed';
-import { useNavigation } from '@react-navigation/native';
-import { Dropdown } from 'react-native-element-dropdown';
+import {DataTable, Searchbar} from 'react-native-paper';
+import {ModalAppInput} from '../../customComponents/AppInput';
+import {Button} from '@rneui/themed';
+import {useNavigation} from '@react-navigation/native';
+import {Dropdown} from 'react-native-element-dropdown';
 import Toast from 'react-native-toast-message';
 import {
   creatProductsApi,
@@ -27,6 +27,7 @@ import {
   transactionsListsApi,
 } from '../../../api/AuthApi';
 import UnderlineSVG from '../../../assets/svg/UnderlineSVG';
+import SalesInvoice, {createPDF} from '../../customComponents/SalesInvoice';
 
 const Sell = () => {
   const navigation = useNavigation();
@@ -49,7 +50,9 @@ const Sell = () => {
   const [numberOfItemsPerPageList] = useState([4, 5, 6]);
   const [dropdownData, setDropdownData] = useState([]);
   const [transactionData, setTransactionData] = useState([]);
-  const [itemsPerPage, onItemsPerPageChange] = useState(numberOfItemsPerPageList[0]);
+  const [itemsPerPage, onItemsPerPageChange] = useState(
+    numberOfItemsPerPageList[0],
+  );
   const [searchQuery, setSearchQuery] = useState('');
 
   const fetchData = async () => {
@@ -103,7 +106,9 @@ const Sell = () => {
   }, [itemsPerPage]);
 
   const handleSort = () => {
-    setSort(prevSort => (prevSort === 'descending' ? 'ascending' : 'descending'));
+    setSort(prevSort =>
+      prevSort === 'descending' ? 'ascending' : 'descending',
+    );
   };
 
   const sortedItems = [...items].sort((a, b) => {
@@ -126,7 +131,7 @@ const Sell = () => {
         category,
         quantity,
         amount,
-        'sell'
+        'sell',
       );
       setTransactionData(res);
       setModalVisible(!isModalVisible);
@@ -140,7 +145,7 @@ const Sell = () => {
       Toast.show({
         type: 'success',
         text1: 'Order',
-        text2: 'Your sell order placed successfully ! '
+        text2: 'Your sell order placed successfully ! ',
       });
     } catch (err) {
       console.log(err);
@@ -168,7 +173,7 @@ const Sell = () => {
   const handleAdd = () => {
     setModalVisible(!isModalVisible);
     setAvailableQnt(null);
-    setBuyerID('')
+    setBuyerID('');
     setValue(null);
     setProductID('');
     setCategory('');
@@ -180,7 +185,7 @@ const Sell = () => {
   const renderLabel = () => {
     if (value || isFocus) {
       return (
-        <Text style={[styles.label, isFocus && { color: 'blue' }]}>
+        <Text style={[styles.label, isFocus && {color: 'blue'}]}>
           Product Name
         </Text>
       );
@@ -210,6 +215,11 @@ const Sell = () => {
       console.error('Error fetching transaction details:', error);
     }
   };
+
+  const handleInvoice = () => {
+    createPDF(transactionDetails);
+  };
+
   return (
     <ScrollView style={styles.scrollContainer}>
       <View
@@ -418,11 +428,15 @@ const Sell = () => {
         </View>
       </View>
       <View>
-      {visible && (
+        {visible && (
           <View style={{flex: 1}}>
             <ScrollView>
               <Modal isVisible={visible}>
-                <View style={[styles.modalContainer, {height: height * 0.5,padding:15}]}>
+                <View
+                  style={[
+                    styles.modalContainer,
+                    {height: height * 0.5, padding: 15},
+                  ]}>
                   <Text style={styles.productTitle}>Product Details</Text>
                   <View style={{flex: 1, flexDirection: 'row'}}>
                     <View style={{flex: 0.55, rowGap: 10}}>
@@ -443,7 +457,7 @@ const Sell = () => {
                         {transactionDetails[0].buyerId}
                       </Text>
                       <Text style={[styles.idText]}>
-                        {transactionDetails[0].productId}
+                        {transactionDetails[0].productName}
                       </Text>
                       <Text style={[styles.idText]}>
                         {transactionDetails[0].category}
@@ -463,7 +477,18 @@ const Sell = () => {
                     </View>
                   </View>
                   <View
-                    style={{alignItems: 'flex-end', justifyContent: 'center'}}>
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      flexDirection: 'row',
+                      columnGap: 5,
+                    }}>
+                    <Button
+                      color="#1A1A27"
+                      containerStyle={styles.loginButton}
+                      onPress={handleInvoice}>
+                      Print
+                    </Button>
                     <Button
                       color="#1A1A27"
                       containerStyle={styles.loginButton}

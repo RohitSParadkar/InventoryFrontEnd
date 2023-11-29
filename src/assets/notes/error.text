@@ -9,3 +9,7 @@ for tost message - react native toast message and add <Toast /> in the app.js
   //api calling error sometimes response is not get directly saved it 
   const res = await emailVerfication(userId, otpValue);
   setOtpVerifyResponse(res);
+
+  react native html-pdf : add command in androidManifest.xml below internet permission
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>

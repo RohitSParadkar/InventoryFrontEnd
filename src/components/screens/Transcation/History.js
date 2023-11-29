@@ -23,6 +23,7 @@ import {
   transactionAPI,
   transactionsListsApi,
 } from '../../../api/AuthApi';
+import SalesInvoice, {createPDF} from '../../customComponents/SalesInvoice';
 import UnderlineSVG from '../../../assets/svg/UnderlineSVG';
 
 
@@ -200,6 +201,11 @@ const paginatedItems = sortedItems.slice(from, to);
       console.error('Error fetching transaction details:', error);
     }
   };
+
+  const handleInvoice = () => {
+    createPDF(transactionDetails);
+  };
+
   return (
     <ScrollView style={styles.scrollContainer}>
       <View
@@ -382,20 +388,28 @@ const paginatedItems = sortedItems.slice(from, to);
                     </View>
                   </View>
                 </View>
-                <View style={styles.buttonContiner}>
-                  <Button
-                    color="#1A1A27"
-                    containerStyle={styles.loginButton}
-                    onPress={handleAdd}>
-                    Cancel
-                  </Button>
-                  <Button
-                    color="#1A1A27"
-                    containerStyle={styles.loginButton}
-                    onPress={handleBuy}>
-                    Buy
-                  </Button>
-                </View>
+                <View
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      flexDirection: 'row',
+                      columnGap: 5,
+                    }}>
+                    <Button
+                      color="#1A1A27"
+                      containerStyle={styles.loginButton}
+                      onPress={handleInvoice}>
+                      Print
+                    </Button>
+                    <Button
+                      color="#1A1A27"
+                      containerStyle={styles.loginButton}
+                      onPress={() => {
+                        setVisible(!visible);
+                      }}>
+                      Close
+                    </Button>
+                  </View>
               </View>
             </Modal>
           </ScrollView>
@@ -425,7 +439,7 @@ const paginatedItems = sortedItems.slice(from, to);
                         {transactionDetails[0].buyerId}
                       </Text>
                       <Text style={[styles.idText]}>
-                        {transactionDetails[0].productId}
+                        {transactionDetails[0].productName}
                       </Text>
                       <Text style={[styles.idText]}>
                         {transactionDetails[0].category}

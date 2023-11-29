@@ -25,6 +25,7 @@ import {
   transactionsListsApi,
   transactionById,
 } from '../../../api/AuthApi';
+import SalesInvoice, {createPDF} from '../../customComponents/SalesInvoice';
 import UnderlineSVG from '../../../assets/svg/UnderlineSVG';
 
 const Buy = () => {
@@ -53,6 +54,7 @@ const Buy = () => {
   );
   const [searchQuery, setSearchQuery] = useState('');
 
+// export const InvoiceDetails = ()=>{transactionDetails}
   const fetchData = async () => {
     try {
       const res = await inventoryListsApi();
@@ -214,7 +216,9 @@ const Buy = () => {
       console.error('Error fetching transaction details:', error);
     }
   };
-
+  const handleInvoice = () => {
+    createPDF(transactionDetails);
+  };
   return (
     <ScrollView style={styles.scrollContainer}>
       <View
@@ -451,7 +455,7 @@ const Buy = () => {
                         {transactionDetails[0].buyerId}
                       </Text>
                       <Text style={[styles.idText]}>
-                        {transactionDetails[0].productId}
+                        {transactionDetails[0].productName}
                       </Text>
                       <Text style={[styles.idText]}>
                         {transactionDetails[0].category}
@@ -471,7 +475,18 @@ const Buy = () => {
                     </View>
                   </View>
                   <View
-                    style={{alignItems: 'flex-end', justifyContent: 'center'}}>
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      flexDirection: 'row',
+                      columnGap: 5,
+                    }}>
+                    <Button
+                      color="#1A1A27"
+                      containerStyle={styles.loginButton}
+                      onPress={handleInvoice}>
+                      Print
+                    </Button>
                     <Button
                       color="#1A1A27"
                       containerStyle={styles.loginButton}
