@@ -31,6 +31,7 @@ import SalesInvoice, {createPDF} from '../../customComponents/SalesInvoice';
 
 const Sell = () => {
   const navigation = useNavigation();
+  const [quantityError, setQuantityError] = useState('');
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -125,28 +126,39 @@ const Sell = () => {
 
   const handleSell = async () => {
     try {
-      const res = await transactionAPI(
-        buyerID,
-        productID,
-        category,
-        quantity,
-        amount,
-        'sell',
-      );
-      setTransactionData(res);
-      setModalVisible(!isModalVisible);
-      setAvailableQnt(null);
-      setValue(null);
-      setProductID('');
-      setCategory('');
-      setQuantity('');
-      setAmount('');
-      setExpiry('');
-      Toast.show({
-        type: 'success',
-        text1: 'Order',
-        text2: 'Your sell order placed successfully ! ',
-      });
+      if (!buyerID || !productID || !category || !quantity || !amount) {
+        // Check if any of the required fields is empty
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Please fill in all required fields.',
+        });
+      } else if (parseInt(quantity) > parseInt(availableQnt?.quantity)) {
+        // Quantity entered is greater than available quantity
+        setQuantityError(
+          'Entered quantity is greater than available quantity!',
+        );
+      } else {
+        // Quantity is valid, proceed with the buy order
+        const res = await transactionAPI(
+          buyerID,
+          productID,
+          category,
+          quantity,
+          amount,
+          'sell',
+        );
+        setTransactionData(res);
+        setModalVisible(!isModalVisible);
+        setAvailableQnt(null);
+        setValue(null);
+        setProductID('');
+        setCategory('');
+        setQuantity('');
+        setAmount('');
+        setExpiry('');
+        setQuantityError(''); // Clear the quantity error
+      }
     } catch (err) {
       console.log(err);
     }
@@ -329,6 +341,11 @@ const Sell = () => {
               <View style={[styles.modalContainer, {height: height * 0.6}]}>
                 <View style={styles.newProduct}>
                   <Text style={styles.productTitle}>Sell</Text>
+                  {quantityError ? (
+                      <View style={styles.rowFlexCenter}>
+                        <Text style={{color: 'red'}}>{quantityError}</Text>
+                      </View>
+                    ) : null}
                   <View style={styles.rowFlexCenter}>
                     <Text style={styles.idText}>Buyer:</Text>
                     <ModalAppInput

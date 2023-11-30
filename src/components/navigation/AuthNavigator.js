@@ -20,26 +20,33 @@ import Sell from '../screens/Transcation/Sell';
 import SignUPI from '../Login/SignUPI';
 import ForgotPassword from '../Login/ForgotPassword';
 import OtpVerification from '../Login/OtpVerification';
+import ChatBot from '../customComponents/ChatBot';
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialTopTabNavigator();
 
 const AuthNavigator = () => {
   const navigation = useNavigation();
   return (
-    <Stack.Navigator initialRouteName="Sell" >
+    <Stack.Navigator initialRouteName="ForgotPassword" >
       <Stack.Screen
         name="SignIn"
         component={SignIn}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Sign up"
-        component={SignUPI}
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="ChatBot"
+        component={ChatBot}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Forgot Password"
-        component={ForgotPassword}
+        name="Sign up"
+        component={SignUPI}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="OverView"

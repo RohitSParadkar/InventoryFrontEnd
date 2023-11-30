@@ -30,6 +30,7 @@ import UnderlineSVG from '../../../assets/svg/UnderlineSVG';
 
 const Buy = () => {
   const navigation = useNavigation();
+  const [quantityError, setQuantityError] = useState('');
   const [value, setValue] = useState(null);
   const [visible, setVisible] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
@@ -54,7 +55,7 @@ const Buy = () => {
   );
   const [searchQuery, setSearchQuery] = useState('');
 
-// export const InvoiceDetails = ()=>{transactionDetails}
+  // export const InvoiceDetails = ()=>{transactionDetails}
   const fetchData = async () => {
     try {
       const res = await inventoryListsApi();
@@ -125,28 +126,39 @@ const Buy = () => {
 
   const handleBuy = async () => {
     try {
-      const res = await transactionAPI(
-        buyerID,
-        productID,
-        category,
-        quantity,
-        amount,
-        'buy',
-      );
-      setTransactionData(res);
-      setModalVisible(!isModalVisible);
-      setAvailableQnt(null);
-      setValue(null);
-      setProductID('');
-      setCategory('');
-      setQuantity('');
-      setAmount('');
-      setExpiry('');
-      Toast.show({
-        type: 'success',
-        text1: 'Order',
-        text2: 'Your buy order placed successfully ! ',
-      });
+      if (!buyerID || !productID || !category || !quantity || !amount) {
+        // Check if any of the required fields is empty
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: 'Please fill in all required fields.',
+        });
+      } else if (parseInt(quantity) > parseInt(availableQnt?.quantity)) {
+        // Quantity entered is greater than available quantity
+        setQuantityError(
+          'Entered quantity is greater than available quantity!',
+        );
+      } else {
+        // Quantity is valid, proceed with the buy order
+        const res = await transactionAPI(
+          buyerID,
+          productID,
+          category,
+          quantity,
+          amount,
+          'buy',
+        );
+        setTransactionData(res);
+        setModalVisible(!isModalVisible);
+        setAvailableQnt(null);
+        setValue(null);
+        setProductID('');
+        setCategory('');
+        setQuantity('');
+        setAmount('');
+        setExpiry('');
+        setQuantityError(''); // Clear the quantity error
+      }
     } catch (err) {
       console.log(err);
     }
@@ -298,7 +310,7 @@ const Buy = () => {
                   alignItems: 'center',
                   color: 'green',
                 }}>
-                {item.type}
+                {item.type}or
               </DataTable.Cell>
             </DataTable.Row>
           ))}
@@ -332,6 +344,11 @@ const Buy = () => {
               <View style={[styles.modalContainer, {height: height * 0.6}]}>
                 <View style={styles.newProduct}>
                   <Text style={styles.productTitle}>Buy</Text>
+                  {quantityError ? (
+                      <View style={styles.rowFlexCenter}>
+                        <Text style={{color: 'red'}}>{quantityError}</Text>
+                      </View>
+                    ) : null}
                   <View style={styles.rowFlexCenter}>
                     <Text style={styles.idText}>Buyer:</Text>
                     <ModalAppInput
@@ -409,6 +426,7 @@ const Buy = () => {
                         {availableQnt ? `${availableQnt?.quantity}` : '_'}
                       </Text>
                     </View>
+
                   </View>
                 </View>
                 <View style={styles.buttonContiner}>
@@ -434,7 +452,11 @@ const Buy = () => {
           <View style={{flex: 1}}>
             <ScrollView>
               <Modal isVisible={visible}>
-                <View style={[styles.modalContainer, {height: height * 0.5,padding:15}]}>
+                <View
+                  style={[
+                    styles.modalContainer,
+                    {height: height * 0.5, padding: 15},
+                  ]}>
                   <Text style={styles.productTitle}>Product Details</Text>
                   <View style={{flex: 1, flexDirection: 'row'}}>
                     <View style={{flex: 0.55, rowGap: 10}}>

@@ -32,7 +32,7 @@ export const LoginApi = async (email, password) => {
     try {
 
         const response = await axios.request(options)
-        console.warn(response)
+        // console.warn(response)
         return response.data;
     } catch (err) {
         return err
@@ -52,7 +52,7 @@ export const emailVerfication = async (userId, otp) => {
     try {
         //    console.warn(options.data)
         const response = await axios.request(options)
-        console.warn(response)
+        // console.warn(response)
         return response.data;
     } catch (err) {
         return err
@@ -70,9 +70,9 @@ export const forgotPassword = async (email) => {
         data: { email: email }  //userId, otp
     }
     try {
-        console.warn(options.data)
+        // console.warn(options.data)
         const response = await axios.request(options)
-        console.warn(response)
+        // console.warn(response)
         return response.data;
     } catch (err) {
         return err

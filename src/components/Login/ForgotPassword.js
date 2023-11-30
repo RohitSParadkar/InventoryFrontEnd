@@ -1,46 +1,145 @@
-import React, { useState } from 'react';
-import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { Button } from '@rneui/themed';
+import React, {useState,useRef} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Switch,
+  TouchableOpacity,
+  ScrollView, // Import ScrollView
+} from 'react-native';
+import {Button} from '@rneui/themed';
+import Toast from 'react-native-toast-message';
 import AppInput from '../customComponents/AppInput';
-import { useNavigation } from '@react-navigation/native';
-import { forgotPassword } from '../../api/AuthApi';
+import {TextInput} from 'react-native-paper';
+import UnderlineSVG, {LoginEyeIcon} from '../../assets/svg/UnderlineSVG';
+import {useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import OTPTextInput from 'react-native-otp-textinput';
+import {signupApi} from '../../api/AuthApi';
+
 
 const ForgotPassword = () => {
+  const route = useRoute();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [forgotPasswordResponse,setForgotPasswordResponse] = useState('')
-  const navigation = useNavigation()
-  const handleSendLinkButton = async () => {
-    try {
-      const response = await forgotPassword(email);
-      setForgotPasswordResponse(response);
-      console.warn(forgotPasswordResponse)
-    } catch (error) {
-      console.log(error);
-    }
+  const [reEnterPassword, setReEnterPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(true);
+  const [signupResponse, setSignupResponse] = useState(null);
+  const [confrpasswordVisible, setConfrPasswordVisible] = useState(true);
+  const otpInput = useRef(null);
+  const navigation = useNavigation();
+  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
+  const handlePasswordShow = () => {
+    setPasswordVisible(!passwordVisible);
   };
+  const handleOtpChange = value => {
+    setOtpValue(value);
+    console.warn(JSON.stringify(value));
+  };
+
+  const handleConfrPasswordShow = () => {
+    setConfrPasswordVisible(!confrpasswordVisible);
+  };
+  const handleSignUpButton = async () => {
+    if (password !== reEnterPassword) {
+      Toast.show({
+        type: 'error',
+        text1: 'Invalid Password',
+        text2: 'Password doesn\'t match!',
+      });
+    } else {
+      try {
+        const response = await signupApi(email, reEnterPassword);
+        setSignupResponse(response);
+  
+        // Check if the response is successful before navigating
+        if (response && response._id) {
+          navigation.navigate('OTP', { signupResponse: response });
+        } else {
+          // Handle the case where the response is not as expected
+          console.warn('Invalid response from signupApi:', response);
+          // You may want to show an error message or take appropriate action
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
-    <ScrollView contentContainerStyle={styles.loginContainer} keyboardShouldPersistTaps="handled">
-      <View style={styles.loginOuterContainer}>
-        <View style={{ flex: 0.5 }}>
-          <Text style={styles.itemName}>Forgot Password</Text>
-          <Text>Send the Email Link</Text>
-        </View>
-        <View style={{ flex: 1.2 }}>
-          <AppInput
-            onChangeText={setEmail}
-            value={email}
-            autoFocus={true}
-            placeholder={'Email'}
+    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      {/* Wrap your existing code inside ScrollView */}
+      <View style={styles.signInContainer}>
+        <View style={styles.topContainer}>
+          <Image
+            style={styles.mainLogo}
+            source={require('../../assets/logo/blackLogo.png')}
           />
-          <View style={styles.centerContainer}>
-            <Button color="secondary" containerStyle={styles.loginButton} onPress={handleSendLinkButton}>
-             Send OTP
+        </View>
+        <View style={styles.bottomContainer}>
+        <View style={styles.textContainer}>
+            <Text style={styles.boldText}>Got it! please enter OTP</Text>
+            <View>
+              <Text style={styles.text}>
+                You will get a confirmation code via email to your given email
+                id.
+              </Text>
+            </View>
+          </View>
+          <View style={styles.textInput}>
+            <Text>Email id</Text>
+            <AppInput
+              onChangeText={setEmail}
+              value={email}
+              autoFocus={true}
+              placeholder={'Enter Email'}
+            />
+            <Text>OTP</Text>
+            <View>
+            <OTPTextInput
+            ref={otpInput}
+            containerStyle={styles.otpContainer}
+            textInputStyle={styles.otpInput}
+            tintColor="#1A1A27"
+            offTintColor="#808080"
+            autoFocus={true}
+            handleTextChange={handleOtpChange}
+          />
+            </View>
+            <Text>Confrim Password</Text>
+            <View>
+              <AppInput
+                onChangeText={setReEnterPassword}
+                value={reEnterPassword}
+                autoFocus={true}
+                placeholder={'Confrim Password'}
+                secureTextEntry={confrpasswordVisible}
+              />
+              <TouchableOpacity
+                style={{position: 'absolute', top: 20, right: 50}}
+                onPress={handleConfrPasswordShow}>
+                <Image
+                  style={{width: 20, height: 20}}
+                  source={require('../../assets/logo/Iconseye.png')}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              paddingBottom: 20, // Adjusted padding to avoid button being covered by keyboard
+            }}>
+            <Button
+              color="#1A1A27"
+              containerStyle={styles.loginButton}
+              onPress={handleSignUpButton}>
+              Reset Password
             </Button>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text style={{ marginLeft: 10, color: 'blue' }}>Back</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -51,40 +150,55 @@ const ForgotPassword = () => {
 export default ForgotPassword;
 
 const styles = StyleSheet.create({
-  loginContainer: {
+  scrollViewContainer: {
+    flexGrow: 1, // Added flexGrow to allow content to be scrollable
+  },
+  signInContainer: {
     flex: 1,
-    backgroundColor: '#F2F2F2',
+    padding: 10,
+  },
+  topContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
   },
-  loginOuterContainer: {
+  textContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  topOtpContainer: {
+    flex: 1,
+  },
+  bottomContainer: {
     flex: 0.6,
-    width: 350,
+    padding: 20,
   },
-  itemName: {
-    fontSize: 36,
-    fontFamily: 'Noto Sans',
-    color: '#464646',
-    fontWeight: '600',
-    fontStyle: 'normal',
+  mainLogo: {
+    width: 80,
+    height: 84,
   },
-  authImg: {
-    width: 40,
-    height: 40,
+  signIncontainer: {
+    flexDirection: 'row',
   },
-  centerContainer: {
-    justifyContent: 'center',
+  toggleContainer: {
+    flex: 0.3,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     alignItems: 'center',
-  },
-  centerTextContainer: {
-    justifyContent: 'space-between',
-    alignItems:'center',
-    marginTop: 5,
   },
   loginButton: {
-    width: 100,
-    marginBottom: 5,
+    width: 305,
+    marginBottom: 43,
+    justifyContent: 'center',
+    borderRadius: 10,
   },
-  // ... Your other styles ...
+  boldText: {
+    color: '#1A1A27',
+    fontFamily: 'DM Sans',
+    fontSize: 15,
+    fontStyle: 'normal',
+    fontWeight: '500',
+    letterSpacing: 0.2,
+  },
 });

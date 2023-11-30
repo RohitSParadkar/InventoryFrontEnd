@@ -459,7 +459,18 @@ const paginatedItems = sortedItems.slice(from, to);
                     </View>
                   </View>
                   <View
-                    style={{alignItems: 'flex-end', justifyContent: 'center'}}>
+                    style={{
+                      alignItems: 'center',
+                      justifyContent: 'flex-end',
+                      flexDirection: 'row',
+                      columnGap: 5,
+                    }}>
+                    <Button
+                      color="#1A1A27"
+                      containerStyle={styles.loginButton}
+                      onPress={handleInvoice}>
+                      Print
+                    </Button>
                     <Button
                       color="#1A1A27"
                       containerStyle={styles.loginButton}

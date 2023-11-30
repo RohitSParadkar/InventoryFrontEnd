@@ -2,3 +2,5 @@ import { useRoute } from '@react-navigation/native';
 const route = useRoute();
 () => navigation.navigate('Sign up',{caption:`${email}`})   
 <Text>{route.params.caption}</Text> 
+
+chatgpt api - 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
