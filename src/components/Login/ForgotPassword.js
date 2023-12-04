@@ -6,6 +6,7 @@ import {
   Image,
   Switch,
   TouchableOpacity,
+  Dimensions,
   ScrollView, // Import ScrollView
 } from 'react-native';
 import {Button} from '@rneui/themed';
@@ -43,29 +44,8 @@ const ForgotPassword = () => {
     setConfrPasswordVisible(!confrpasswordVisible);
   };
   const handleSignUpButton = async () => {
-    if (password !== reEnterPassword) {
-      Toast.show({
-        type: 'error',
-        text1: 'Invalid Password',
-        text2: 'Password doesn\'t match!',
-      });
-    } else {
-      try {
-        const response = await signupApi(email, reEnterPassword);
-        setSignupResponse(response);
-  
-        // Check if the response is successful before navigating
-        if (response && response._id) {
-          navigation.navigate('OTP', { signupResponse: response });
-        } else {
-          // Handle the case where the response is not as expected
-          console.warn('Invalid response from signupApi:', response);
-          // You may want to show an error message or take appropriate action
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
+    const response ="abc"
+    navigation.navigate('OTP',{ signupResponse: response })
   };
 
   return (
@@ -80,7 +60,7 @@ const ForgotPassword = () => {
         </View>
         <View style={styles.bottomContainer}>
         <View style={styles.textContainer}>
-            <Text style={styles.boldText}>Got it! please enter OTP</Text>
+            <Text style={styles.boldText}>Please enter the registered email address</Text>
             <View>
               <Text style={styles.text}>
                 You will get a confirmation code via email to your given email
@@ -96,36 +76,6 @@ const ForgotPassword = () => {
               autoFocus={true}
               placeholder={'Enter Email'}
             />
-            <Text>OTP</Text>
-            <View>
-            <OTPTextInput
-            ref={otpInput}
-            containerStyle={styles.otpContainer}
-            textInputStyle={styles.otpInput}
-            tintColor="#1A1A27"
-            offTintColor="#808080"
-            autoFocus={true}
-            handleTextChange={handleOtpChange}
-          />
-            </View>
-            <Text>Confrim Password</Text>
-            <View>
-              <AppInput
-                onChangeText={setReEnterPassword}
-                value={reEnterPassword}
-                autoFocus={true}
-                placeholder={'Confrim Password'}
-                secureTextEntry={confrpasswordVisible}
-              />
-              <TouchableOpacity
-                style={{position: 'absolute', top: 20, right: 50}}
-                onPress={handleConfrPasswordShow}>
-                <Image
-                  style={{width: 20, height: 20}}
-                  source={require('../../assets/logo/Iconseye.png')}
-                />
-              </TouchableOpacity>
-            </View>
           </View>
           <View
             style={{
@@ -138,7 +88,7 @@ const ForgotPassword = () => {
               color="#1A1A27"
               containerStyle={styles.loginButton}
               onPress={handleSignUpButton}>
-              Reset Password
+              Send OTP
             </Button>
           </View>
         </View>
@@ -148,7 +98,7 @@ const ForgotPassword = () => {
 };
 
 export default ForgotPassword;
-
+const {width, height} = Dimensions.get('window');
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1, // Added flexGrow to allow content to be scrollable
@@ -169,6 +119,28 @@ const styles = StyleSheet.create({
   },
   topOtpContainer: {
     flex: 1,
+  },
+  otpContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'blue',
+    width: '80%',
+  },
+  otpInput: {
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderColor: 'black',
+    width: width * 0.11,
+    height: width * 0.11,
+    textAlign: 'center',
+  },
+  otpButton:{
+    flex:1,
+    flexDirection:'row',
+    columnGap:width*0.55
   },
   bottomContainer: {
     flex: 0.6,
