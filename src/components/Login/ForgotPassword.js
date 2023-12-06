@@ -16,6 +16,7 @@ import {TextInput} from 'react-native-paper';
 import UnderlineSVG, {LoginEyeIcon} from '../../assets/svg/UnderlineSVG';
 import {useRoute} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
+import { forgotPassword } from '../../api/AuthApi';
 import OTPTextInput from 'react-native-otp-textinput';
 import {signupApi} from '../../api/AuthApi';
 
@@ -26,7 +27,7 @@ const ForgotPassword = () => {
   const [password, setPassword] = useState('');
   const [reEnterPassword, setReEnterPassword] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(true);
-  const [signupResponse, setSignupResponse] = useState(null);
+  const [forgotEmailResponse, setForgotEmailResponse] = useState(null);
   const [confrpasswordVisible, setConfrPasswordVisible] = useState(true);
   const otpInput = useRef(null);
   const navigation = useNavigation();
@@ -43,9 +44,23 @@ const ForgotPassword = () => {
   const handleConfrPasswordShow = () => {
     setConfrPasswordVisible(!confrpasswordVisible);
   };
-  const handleSignUpButton = async () => {
-    const response ="abc"
-    navigation.navigate('OTP',{ signupResponse: response })
+  const handleSendOTPButton = async () => {
+    try {
+      const response = await forgotPassword(email);
+      setForgotEmailResponse(response);
+      // console.warn(response?.user)
+      // Check if the response is successful before navigating
+      if (response && response?.user) {
+        console.warn(response?.user?._id)
+        navigation.navigate('OTP', { signupResponse: response?.user });
+      } else {
+        // Handle the case where the response is not as expected
+        console.warn('Invalid response from signupApi:', response);
+        // You may want to show an error message or take appropriate action
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -87,7 +102,7 @@ const ForgotPassword = () => {
             <Button
               color="#1A1A27"
               containerStyle={styles.loginButton}
-              onPress={handleSignUpButton}>
+              onPress={handleSendOTPButton}>
               Send OTP
             </Button>
           </View>
